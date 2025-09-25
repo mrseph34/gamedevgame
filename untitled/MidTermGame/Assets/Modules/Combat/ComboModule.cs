@@ -30,8 +30,7 @@ public class ComboModule : AttackModule
 
         Vector2 inDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector2 size,
-            offset;
+        Vector2 size, offset;
         bool diag = false;
 
         if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
