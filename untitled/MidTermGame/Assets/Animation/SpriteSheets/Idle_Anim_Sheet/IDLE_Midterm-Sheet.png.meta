@@ -1,0 +1,637 @@
+fileFormatVersion: 2
+guid: ae1b0438d462a4601ab42e66c7cad4da
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 352832124819000501
+    second: IDLE_Midterm-Sheet_0
+  - first:
+      213: -120183265613257966
+    second: IDLE_Midterm-Sheet_1
+  - first:
+      213: -5265872491327847703
+    second: IDLE_Midterm-Sheet_2
+  - first:
+      213: 8581986308079625262
+    second: IDLE_Midterm-Sheet_3
+  - first:
+      213: -3205746398495404111
+    second: IDLE_Midterm-Sheet_4
+  - first:
+      213: 557597043125606292
+    second: IDLE_Midterm-Sheet_5
+  - first:
+      213: 3305241459203720116
+    second: IDLE_Midterm-Sheet_6
+  - first:
+      213: 766508824106743554
+    second: IDLE_Midterm-Sheet_7
+  - first:
+      213: -4937673964314207172
+    second: IDLE_Midterm-Sheet_8
+  - first:
+      213: 4170303349409395067
+    second: IDLE_Midterm-Sheet_9
+  - first:
+      213: -2633684472559265683
+    second: IDLE_Midterm-Sheet_10
+  - first:
+      213: 6911950778819719515
+    second: IDLE_Midterm-Sheet_11
+  - first:
+      213: -4020399010990720030
+    second: IDLE_Midterm-Sheet_12
+  - first:
+      213: 2927502942640638739
+    second: IDLE_Midterm-Sheet_13
+  - first:
+      213: -1176411065757137727
+    second: IDLE_Midterm-Sheet_14
+  - first:
+      213: -2933242867604671691
+    second: IDLE_Midterm-Sheet_15
+  - first:
+      213: 2971165368875844209
+    second: IDLE_Midterm-Sheet_16
+  - first:
+      213: -1268546281601382610
+    second: IDLE_Midterm-Sheet_17
+  - first:
+      213: 1824034428279969640
+    second: IDLE_Midterm-Sheet_18
+  - first:
+      213: -3974751966271028571
+    second: IDLE_Midterm-Sheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 110
+        width: 22
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bcce29b2f285e400800000000000000
+      internalID: 352832124819000501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 110
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 213ec29e4f5055ef0800000000000000
+      internalID: -120183265613257966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 110
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e207e17edcdbe6b0800000000000000
+      internalID: -5265872491327847703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 110
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e242a50f317591770800000000000000
+      internalID: 8581986308079625262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 110
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bf81b5a2a6e283d0800000000000000
+      internalID: -3205746398495404111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 110
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4975f437e8bfcb700800000000000000
+      internalID: 557597043125606292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 110
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b34bb068939edd20800000000000000
+      internalID: 3305241459203720116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 110
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 207b512e6bf23aa00800000000000000
+      internalID: 766508824106743554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 110
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3c5b5cb0bbd97bb0800000000000000
+      internalID: -4937673964314207172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 898
+        y: 110
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b713b231dc4efd930800000000000000
+      internalID: 4170303349409395067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 14
+        width: 22
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6894a21de5437bd0800000000000000
+      internalID: -2633684472559265683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 14
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b51b88cbc9e2cef50800000000000000
+      internalID: 6911950778819719515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 14
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ebf096866ca438c0800000000000000
+      internalID: -4020399010990720030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 14
+        width: 23
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31b810f6a6490a820800000000000000
+      internalID: 2927502942640638739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 14
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c405bb5e5c8cafe0800000000000000
+      internalID: -1176411065757137727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 14
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 533b97427270b47d0800000000000000
+      internalID: -2933242867604671691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 14
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17289cc3923bb3920800000000000000
+      internalID: 2971165368875844209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 14
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e27c100c0e7356ee0800000000000000
+      internalID: -1268546281601382610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 14
+        width: 24
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 867d5bbf5a5405910800000000000000
+      internalID: 1824034428279969640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IDLE_Midterm-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 898
+        y: 14
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a241245528d6d8c0800000000000000
+      internalID: -3974751966271028571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IDLE_Midterm-Sheet_0: 352832124819000501
+      IDLE_Midterm-Sheet_1: -120183265613257966
+      IDLE_Midterm-Sheet_10: -2633684472559265683
+      IDLE_Midterm-Sheet_11: 6911950778819719515
+      IDLE_Midterm-Sheet_12: -4020399010990720030
+      IDLE_Midterm-Sheet_13: 2927502942640638739
+      IDLE_Midterm-Sheet_14: -1176411065757137727
+      IDLE_Midterm-Sheet_15: -2933242867604671691
+      IDLE_Midterm-Sheet_16: 2971165368875844209
+      IDLE_Midterm-Sheet_17: -1268546281601382610
+      IDLE_Midterm-Sheet_18: 1824034428279969640
+      IDLE_Midterm-Sheet_19: -3974751966271028571
+      IDLE_Midterm-Sheet_2: -5265872491327847703
+      IDLE_Midterm-Sheet_3: 8581986308079625262
+      IDLE_Midterm-Sheet_4: -3205746398495404111
+      IDLE_Midterm-Sheet_5: 557597043125606292
+      IDLE_Midterm-Sheet_6: 3305241459203720116
+      IDLE_Midterm-Sheet_7: 766508824106743554
+      IDLE_Midterm-Sheet_8: -4937673964314207172
+      IDLE_Midterm-Sheet_9: 4170303349409395067
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

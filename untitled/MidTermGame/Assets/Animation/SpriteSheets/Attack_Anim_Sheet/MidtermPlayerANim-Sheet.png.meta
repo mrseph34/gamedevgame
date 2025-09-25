@@ -1,0 +1,898 @@
+fileFormatVersion: 2
+guid: 4b844e483cb6a4d4dba2c94608e1e6f4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3751764197928384651
+    second: MidtermPlayerANim-Sheet_0
+  - first:
+      213: -5419256981411125874
+    second: MidtermPlayerANim-Sheet_1
+  - first:
+      213: 8610729405265205081
+    second: MidtermPlayerANim-Sheet_2
+  - first:
+      213: 4196155792028051608
+    second: MidtermPlayerANim-Sheet_3
+  - first:
+      213: 8237403024719808000
+    second: MidtermPlayerANim-Sheet_4
+  - first:
+      213: 5514040215450545427
+    second: MidtermPlayerANim-Sheet_5
+  - first:
+      213: -1448446354001435942
+    second: MidtermPlayerANim-Sheet_6
+  - first:
+      213: 2112294665594613377
+    second: MidtermPlayerANim-Sheet_7
+  - first:
+      213: 866595168242165821
+    second: MidtermPlayerANim-Sheet_8
+  - first:
+      213: -4314882362473306021
+    second: MidtermPlayerANim-Sheet_9
+  - first:
+      213: -4623370994828132485
+    second: MidtermPlayerANim-Sheet_10
+  - first:
+      213: 5043754428645464527
+    second: MidtermPlayerANim-Sheet_11
+  - first:
+      213: 664207538892188111
+    second: MidtermPlayerANim-Sheet_12
+  - first:
+      213: 5998101708601577918
+    second: MidtermPlayerANim-Sheet_13
+  - first:
+      213: -1646522984438121252
+    second: MidtermPlayerANim-Sheet_14
+  - first:
+      213: -8256567217356488889
+    second: MidtermPlayerANim-Sheet_15
+  - first:
+      213: 2584534021984938252
+    second: MidtermPlayerANim-Sheet_16
+  - first:
+      213: 616850729106709253
+    second: MidtermPlayerANim-Sheet_17
+  - first:
+      213: -1190389548965236268
+    second: MidtermPlayerANim-Sheet_18
+  - first:
+      213: -2921010485004201905
+    second: MidtermPlayerANim-Sheet_19
+  - first:
+      213: -8981265472628129072
+    second: MidtermPlayerANim-Sheet_20
+  - first:
+      213: -3783401909363198404
+    second: MidtermPlayerANim-Sheet_21
+  - first:
+      213: 8413188437963648583
+    second: MidtermPlayerANim-Sheet_22
+  - first:
+      213: -3000680889799780667
+    second: MidtermPlayerANim-Sheet_23
+  - first:
+      213: -3012907142964865194
+    second: MidtermPlayerANim-Sheet_24
+  - first:
+      213: 7639439393789037606
+    second: MidtermPlayerANim-Sheet_25
+  - first:
+      213: -2466769091989159071
+    second: MidtermPlayerANim-Sheet_26
+  - first:
+      213: -1883749580413310750
+    second: MidtermPlayerANim-Sheet_27
+  - first:
+      213: -4153014779787507696
+    second: MidtermPlayerANim-Sheet_28
+  - first:
+      213: 7924109388611134793
+    second: MidtermPlayerANim-Sheet_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 159
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b88bc8a09a1f01430800000000000000
+      internalID: 3751764197928384651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 159
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e852f64ec7eeac4b0800000000000000
+      internalID: -5419256981411125874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 159
+        width: 20
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 957d7d1c5c47f7770800000000000000
+      internalID: 8610729405265205081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 159
+        width: 20
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 898a70ee57dbb3a30800000000000000
+      internalID: 4196155792028051608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 158
+        width: 53
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00607284862215270800000000000000
+      internalID: 8237403024719808000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 159
+        width: 49
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31de52f7c5ec58c40800000000000000
+      internalID: 5514040215450545427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 159
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad2e88917b516ebe0800000000000000
+      internalID: -1448446354001435942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 940
+        y: 159
+        width: 44
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e28b39ec0605d10800000000000000
+      internalID: 2112294665594613377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 158
+        width: 63
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d38e42fc6b3c60c00800000000000000
+      internalID: 866595168242165821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 159
+        width: 52
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b582e214a557e14c0800000000000000
+      internalID: -4314882362473306021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1329
+        y: 159
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7fbc6c639c76dfb0800000000000000
+      internalID: -4623370994828132485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1457
+        y: 159
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc957bd0ee30ff540800000000000000
+      internalID: 5043754428645464527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 1590
+        y: 158
+        width: 53
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc92ecccc3db73900800000000000000
+      internalID: 664207538892188111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1714
+        y: 159
+        width: 49
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb15cd389b98d3350800000000000000
+      internalID: 5998101708601577918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 1842
+        y: 159
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdcbc0eb1106629e0800000000000000
+      internalID: -1646522984438121252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 31
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74fb4596cd7ca6d80800000000000000
+      internalID: -8256567217356488889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 31
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c09e252effb1ed320800000000000000
+      internalID: 2584534021984938252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 31
+        width: 20
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50b98db487e7f8800800000000000000
+      internalID: 616850729106709253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 31
+        width: 20
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d1f69d1303ea7fe0800000000000000
+      internalID: -1190389548965236268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 30
+        width: 53
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f401228a07c7677d0800000000000000
+      internalID: -2921010485004201905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 31
+        width: 49
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d2058e23a22c5380800000000000000
+      internalID: -8981265472628129072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 31
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c363fdd3208ae7bc0800000000000000
+      internalID: -3783401909363198404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 940
+        y: 31
+        width: 44
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74e2f313f46a1c470800000000000000
+      internalID: 8413188437963648583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 30
+        width: 63
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c65e2701a07b56d0800000000000000
+      internalID: -3000680889799780667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 31
+        width: 52
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6579752aae00036d0800000000000000
+      internalID: -3012907142964865194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 1329
+        y: 31
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62ccbe537adb40a60800000000000000
+      internalID: 7639439393789037606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1457
+        y: 31
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 163c211949644cdd0800000000000000
+      internalID: -2466769091989159071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 1590
+        y: 30
+        width: 53
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e86ca5bcb39bd5e0800000000000000
+      internalID: -1883749580413310750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1714
+        y: 31
+        width: 49
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01881d7bf078d56c0800000000000000
+      internalID: -4153014779787507696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MidtermPlayerANim-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 1842
+        y: 31
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9452185518718fd60800000000000000
+      internalID: 7924109388611134793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 51094de1c0eb0413f905c05d0b228b7f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MidtermPlayerANim-Sheet_0: 3751764197928384651
+      MidtermPlayerANim-Sheet_1: -5419256981411125874
+      MidtermPlayerANim-Sheet_10: -4623370994828132485
+      MidtermPlayerANim-Sheet_11: 5043754428645464527
+      MidtermPlayerANim-Sheet_12: 664207538892188111
+      MidtermPlayerANim-Sheet_13: 5998101708601577918
+      MidtermPlayerANim-Sheet_14: -1646522984438121252
+      MidtermPlayerANim-Sheet_15: -8256567217356488889
+      MidtermPlayerANim-Sheet_16: 2584534021984938252
+      MidtermPlayerANim-Sheet_17: 616850729106709253
+      MidtermPlayerANim-Sheet_18: -1190389548965236268
+      MidtermPlayerANim-Sheet_19: -2921010485004201905
+      MidtermPlayerANim-Sheet_2: 8610729405265205081
+      MidtermPlayerANim-Sheet_20: -8981265472628129072
+      MidtermPlayerANim-Sheet_21: -3783401909363198404
+      MidtermPlayerANim-Sheet_22: 8413188437963648583
+      MidtermPlayerANim-Sheet_23: -3000680889799780667
+      MidtermPlayerANim-Sheet_24: -3012907142964865194
+      MidtermPlayerANim-Sheet_25: 7639439393789037606
+      MidtermPlayerANim-Sheet_26: -2466769091989159071
+      MidtermPlayerANim-Sheet_27: -1883749580413310750
+      MidtermPlayerANim-Sheet_28: -4153014779787507696
+      MidtermPlayerANim-Sheet_29: 7924109388611134793
+      MidtermPlayerANim-Sheet_3: 4196155792028051608
+      MidtermPlayerANim-Sheet_30: -106363318
+      MidtermPlayerANim-Sheet_4: 8237403024719808000
+      MidtermPlayerANim-Sheet_5: 5514040215450545427
+      MidtermPlayerANim-Sheet_6: -1448446354001435942
+      MidtermPlayerANim-Sheet_7: 2112294665594613377
+      MidtermPlayerANim-Sheet_8: 866595168242165821
+      MidtermPlayerANim-Sheet_9: -4314882362473306021
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
