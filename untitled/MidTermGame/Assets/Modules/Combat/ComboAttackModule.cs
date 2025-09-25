@@ -2,16 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 [CreateAssetMenu(menuName = "Combat/Combo Attack")]
-public class ComboModule : AttackModule
+public class ComboAttackModule : AttackModule
 {
-    [Header("Combo Settings")]
-    public int maxCombo = 3;
-    public float comboContinueWindow = 1.0f; // Time window to continue combo
-    public float comboTransitionDelay = 0.2f; // Delay between combo hits
-    public string comboIntName = "attackClip"; // Name of animator int parameter
-    public string attackTriggerName = "attackTrigger"; // Trigger for actual attacks
-    public string exitTriggerName = "attackExit"; // Trigger to exit combo
-    
     [Header("Hitbox Graphics")]
     public Sprite hitboxSprite;
     public Color hitboxColor = new Color(1, 0, 0, 0.5f);
@@ -32,72 +24,7 @@ public class ComboModule : AttackModule
     public float stunDuration = 0.5f;
     public string targetTag = "Player";
 
-    // This will be called from CombatHandler when starting the combo
     protected override IEnumerator PerformAttack(CombatHandler ch)
-    {
-        // Start the combo system
-        yield return ch.StartCoroutine(HandleComboSequence(ch));
-    }
-    
-    private IEnumerator HandleComboSequence(CombatHandler ch)
-    {
-        Animator animator = ch.GetComponent<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("No Animator found on CombatHandler!");
-            yield break;
-        }
-        
-        // Set combo clip
-        animator.SetInteger(comboIntName, 1);
-        Debug.Log(animator.GetInteger(comboIntName));
-        // Small delay for windup animation to play
-        yield return new WaitForSeconds(comboTransitionDelay);
-        
-        // Trigger the first attack
-        animator.SetTrigger(attackTriggerName);
-        Debug.Log(animator.GetInteger(comboIntName));
-        
-        // Wait for potential combo continuation
-        float timer = 0f;
-        int currentCombo = 1;
-        
-        while (timer < comboContinueWindow && currentCombo < maxCombo)
-        {
-            timer += Time.deltaTime;
-            
-            if (ShouldContinueCombo())
-            {
-                yield return new WaitForSeconds(comboTransitionDelay);
-                animator.SetTrigger(attackTriggerName);
-                
-                timer = 0f; // Reset timer for next combo window
-            }
-            
-            yield return null;
-        }
-        
-        // Combo finished, trigger exit
-        yield return new WaitForSeconds(comboTransitionDelay);
-        animator.SetTrigger(exitTriggerName);
-        animator.SetInteger(comboIntName, 0); // Reset combo count
-    }
-    
-    // Override this method or make it public to customize combo input
-    private bool ShouldContinueCombo()
-    {
-        // Example: Continue combo if attack button is pressed
-        // You might want to reference the input handler or use a different input method
-        return Input.GetKeyDown(KeyCode.Z); // Replace with your combo input
-    }
-    
-    // This method gets called by animation events for each hit in the combo
-    public void ExecuteComboHit(CombatHandler ch)
-    {
-        ch.StartCoroutine(CreateHitbox(ch));
-    }
-    
-    private IEnumerator CreateHitbox(CombatHandler ch)
     {
         yield return new WaitForSeconds(attackDelay);
 

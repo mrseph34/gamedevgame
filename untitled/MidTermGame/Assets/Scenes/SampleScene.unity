@@ -639,10 +639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7758a435483b48d6ac629d07d41aeb70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatHandler: {fileID: 0}
-  inputKeys: 00000000
+  combatHandler: {fileID: 347734166}
+  inputKeys: 6a000000
   attackModules:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2ee4df727208a404e9518afd876c33f9, type: 2}
 --- !u!114 &347734170
 MonoBehaviour:
   m_ObjectHideFlags: 0
