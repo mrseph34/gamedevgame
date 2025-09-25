@@ -16,6 +16,7 @@ public class CombatHandler : MonoBehaviour
     public StateHandler StateHandler { get; private set; }
     public KnockbackHandler KnockbackHandler { get; private set; }
     public StunHandler StunHandler { get; private set; }
+    public Animator playerAnimator;
 
     void Awake()
     {

@@ -17,6 +17,7 @@ public class PillController : MonoBehaviour
     float horizontalInput;
     bool isGrounded;
     bool facingRight = true;
+    private Animator playerAnimator;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class PillController : MonoBehaviour
 
         stateHandler = GetComponent<StateHandler>();
         stateHandler.ChangeState(StateHandler.State.Grounded);
+
+        playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -74,6 +77,19 @@ public class PillController : MonoBehaviour
             Flip();
         else if (horizontalInput < 0 && facingRight)
             Flip();
+
+        bool posInput = horizontalInput > 0f;
+        bool negInput = horizontalInput < 0f;
+        bool playerMoving = posInput || negInput;
+        if (playerMoving)
+        {
+            playerAnimator.SetBool("playerMove", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("playerMove", false);
+            playerAnimator.SetBool("playerIdle", true);
+        }
     }
 
     void FixedUpdate()

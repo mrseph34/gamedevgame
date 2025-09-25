@@ -12,12 +12,16 @@ public abstract class AttackModule : ScriptableObject
     [HideInInspector]
     public float lastUsedTime;
 
+
     public void HandleInput(CombatHandler ch)
     {
         if (ch.StunHandler.IsStunned || onCooldown)
             return;
         if (Input.GetKeyDown(attackKey))
+        {
             ch.StartCoroutine(UseAttack(ch));
+            ch.playerAnimator.SetTrigger("playerAttack");
+        }
     }
 
     IEnumerator UseAttack(CombatHandler ch)
