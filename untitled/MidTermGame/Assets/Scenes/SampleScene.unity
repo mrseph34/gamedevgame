@@ -535,12 +535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723f06967c19468ba364ea77628239c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackModules:
-  - {fileID: 11400000, guid: 2ee4df727208a404e9518afd876c33f9, type: 2}
-  - {fileID: 11400000, guid: 11747ec3012134020bf6e0e436ab8f91, type: 2}
-  - {fileID: 11400000, guid: cbdd32b4c2f6e4f078a64bd8056ab448, type: 2}
+  animator: {fileID: 347734169}
   SelfCollider: {fileID: 0}
-  playerAnimator: {fileID: 347734169}
 --- !u!114 &347734167
 MonoBehaviour:
   m_ObjectHideFlags: 0

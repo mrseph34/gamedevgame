@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -78,9 +79,8 @@ public class PillController : MonoBehaviour
         else if (horizontalInput < 0 && facingRight)
             Flip();
 
-        bool posInput = horizontalInput > 0f;
-        bool negInput = horizontalInput < 0f;
-        bool playerMoving = posInput || negInput;
+        bool playerInput = Mathf.Abs(horizontalInput) > 0f;
+        bool playerMoving = playerInput;
         if (playerMoving)
         {
             playerAnimator.SetBool("playerMove", true);

@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f811ca327966441ab1c44dacbac6582c, type: 3}
   m_Name: Combo
   m_EditorClassIdentifier: 
-  attackKey: 106
-  cooldown: 0.1
-  onCooldown: 0
-  lastUsedTime: 32.095436
+  animationTrigger: playerAttack
   hitboxSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   hitboxColor: {r: 1, g: 0, b: 0, a: 0.5}
   hbHorizontalSize: {x: 5, y: 10}
