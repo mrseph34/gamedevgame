@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,6 +18,7 @@ public class PillController : MonoBehaviour
     float horizontalInput;
     bool isGrounded;
     bool facingRight = true;
+    private Animator playerAnimator;
 
     void Awake()
     {
@@ -25,6 +27,8 @@ public class PillController : MonoBehaviour
 
         stateHandler = GetComponent<StateHandler>();
         stateHandler.ChangeState(StateHandler.State.Grounded);
+
+        playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -74,6 +78,18 @@ public class PillController : MonoBehaviour
             Flip();
         else if (horizontalInput < 0 && facingRight)
             Flip();
+
+        bool playerInput = Mathf.Abs(horizontalInput) > 0f;
+        bool playerMoving = playerInput;
+        if (playerMoving)
+        {
+            playerAnimator.SetBool("playerMove", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("playerMove", false);
+            playerAnimator.SetBool("playerIdle", true);
+        }
     }
 
     void FixedUpdate()

@@ -14,7 +14,9 @@ public class StateHandler : MonoBehaviour
         Sliding,
         Falling,
         Parrying,
-        GettingHit
+        GettingHit,
+        Attacking,
+        Attacked
     }
 
     public State CurrentState { get; private set; } = State.Grounded;

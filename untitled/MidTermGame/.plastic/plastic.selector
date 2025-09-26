@@ -1,4 +1,0 @@
-repository "MidTermGame/MidTermGame@5773922052396@cloud"
-  path "/"
-    br "/main"
-    co "/main"
