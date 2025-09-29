@@ -1,16 +1,20 @@
 using UnityEngine;
+using System.Collections;
+using Modules.Combat;
 
 public class CombatHandler : MonoBehaviour
 {
     [Header("Animator")]
     [SerializeField] private Animator animator;
     
-    // exposed so modules & hitbox can use them
     [HideInInspector]
     public Collider2D SelfCollider;
     public StateHandler StateHandler { get; private set; }
     public KnockbackHandler KnockbackHandler { get; private set; }
     public StunHandler StunHandler { get; private set; }
+    
+    private AttackModule currentAttackModule;
+    private bool isAttacking = false;
     
     private void Awake()
     {
@@ -25,40 +29,70 @@ public class CombatHandler : MonoBehaviour
         StunHandler = GetComponent<StunHandler>();
     }
     
-    // Method to start an attack with animation trigger (called from input system)
     public void StartAttack(AttackModule attackModule)
     {
-        if (attackModule != null && !string.IsNullOrEmpty(attackModule.animationTrigger))
+        if (attackModule != null && !isAttacking)
         {
-            // Trigger the animation
-            animator.SetTrigger(attackModule.animationTrigger);
+            isAttacking = true;
+            currentAttackModule = attackModule;
+            
+            if (string.IsNullOrEmpty(attackModule.animationTrigger))
+            {
+                StartCoroutine(attackModule.ExecuteAttack(this));
+            }
+            else
+            {
+                animator.SetTrigger(attackModule.animationTrigger);
+                StartCoroutine(attackModule.ExecuteAttack(this));
+            }
         }
     }
     
-    // Animation Event Method - This gets called from animation events
-    // You can pass the AttackModule directly as an Object parameter in animation events
-    public void TriggerAttack(AttackModule attackModule)
+    public void TriggerAttack()
     {
-        if (attackModule != null)
+        if (currentAttackModule != null)
         {
-            StartCoroutine(attackModule.ExecuteAttack(this));
-        }
-        else
-        {
-            Debug.LogWarning("Attack module is null!");
+            StartCoroutine(currentAttackModule.ExecuteAttack(this));
         }
     }
     
-    // Utility methods for animation events
+    public void TriggerHitbox()
+    {
+        if (currentAttackModule != null)
+        {
+            StartCoroutine(currentAttackModule.ExecuteHitbox(this));
+        }
+    }
+    
+    public void ClearCurrentAttack()
+    {
+        currentAttackModule = null;
+        isAttacking = false;
+    }
+    
+    public void CanContinueCombo()
+    {
+        if (currentAttackModule is ComboModule comboModule)
+        {
+            comboModule.SetCanContinue(true);
+        }
+    }
+    
+    public void CannotContinueCombo()
+    {
+        if (currentAttackModule is ComboModule comboModule)
+        {
+            comboModule.SetCanContinue(false);
+        }
+    }
+    
     public void PlaySound(string soundName)
     {
-        // Add sound playing logic here
-        Debug.Log($"Playing sound: {soundName}");
+        // sound playing logic
     }
     
     public void SpawnEffect(string effectName)
     {
-        // Add effect spawning logic here
-        Debug.Log($"Spawning effect: {effectName}");
+        // effect spawning logic?
     }
 }
