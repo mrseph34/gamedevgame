@@ -77,9 +77,16 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: TriggerAttack
+    functionName: TriggerHitbox
     data: 
-    objectReferenceParameter: {fileID: 11400000, guid: 2ee4df727208a404e9518afd876c33f9, type: 2}
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.2857143
+    functionName: CanContinueCombo
+    data: 
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

@@ -1,21 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using Modules.Combat;
 
 [CreateAssetMenu(menuName = "Combat/Combo Attack")]
 public class ComboModule : AttackModule
 {
     [Header("Combo Settings")]
     public int maxCombo = 3;
-    public float comboContinueWindow = 1.0f; // Time window to continue combo
-    public float comboTransitionDelay = 0.2f; // Delay between combo hits
-    public string comboIntName = "attackClip"; // Name of animator int parameter
-    public string attackTriggerName = "attackTrigger"; // Trigger for actual attacks
-    public string exitTriggerName = "attackExit"; // Trigger to exit combo
+    public float comboContinueWindow = 1.0f;
+    public float comboCooldown = 0.5f;
+    public string comboIntName = "attackClip";
+    public string attackTriggerName = "attackTrigger";
+    public string exitTriggerName = "attackExit";
+    public bool easyMode = true;
     
     [Header("Hitbox Graphics")]
     public Sprite hitboxSprite;
     public Color hitboxColor = new Color(1, 0, 0, 0.5f);
-
+    
     [Header("Sizes & Offsets")]
     public Vector2 hbHorizontalSize = new Vector2(5, 10);
     public Vector2 hbHorizontalOff = new Vector2(1, 0);
@@ -25,22 +27,51 @@ public class ComboModule : AttackModule
     public Vector2 hbDownOff = new Vector2(0f, -1.5f);
     public Vector2 hbDiagSize = new Vector2(5, 10);
     public Vector2 hbDiagOff = new Vector2(1, 1);
-
+    
     [Header("Timing & Effects")]
     public float attackDelay = 0.1f;
     public float knockbackForce = 5f;
     public float stunDuration = 0.5f;
     public string targetTag = "Player";
-
-    // This will be called from CombatHandler when starting the combo
-    protected override IEnumerator PerformAttack(CombatHandler ch)
+    
+    private int comboState = 1;
+    private bool comboInputReceived = false;
+    private bool canContinueCombo = false;
+    private int currentComboState = 1;
+    private bool comboActive = false;
+    private bool firstAttackTriggered = false;
+    private bool comboHitAlready = false;
+    
+    private bool IsComboKeyPressed()
     {
-        // Start the combo system
-        yield return ch.StartCoroutine(HandleComboSequence(ch));
+        CombatInputHandler inputHandler = FindObjectOfType<CombatInputHandler>();
+        if (inputHandler != null)
+        {
+            for (int i = 0; i < inputHandler.attackModules.Length; i++)
+            {
+                if (inputHandler.attackModules[i] == this)
+                {
+                    return Input.GetKeyDown(inputHandler.inputKeys[i]);
+                }
+            }
+        }
+        return false;
     }
     
-    private IEnumerator HandleComboSequence(CombatHandler ch)
+    public void SetCanContinue(bool canContinue)
     {
+        canContinueCombo = canContinue;
+    }
+    
+    protected override IEnumerator PerformAttack(CombatHandler ch)
+    {
+        currentComboState = 1;
+        comboInputReceived = false;
+        canContinueCombo = false;
+        comboActive = true;
+        firstAttackTriggered = false;
+        comboHitAlready = false;
+        
         Animator animator = ch.GetComponent<Animator>();
         if (animator == null)
         {
@@ -48,64 +79,165 @@ public class ComboModule : AttackModule
             yield break;
         }
         
-        // Set combo clip
-        animator.SetInteger(comboIntName, 1);
-        Debug.Log(animator.GetInteger(comboIntName));
-        // Small delay for windup animation to play
-        yield return new WaitForSeconds(comboTransitionDelay);
+        animator.SetInteger(comboIntName, currentComboState);
         
-        // Trigger the first attack
-        animator.SetTrigger(attackTriggerName);
-        Debug.Log(animator.GetInteger(comboIntName));
+        yield return ch.StartCoroutine(HandleComboInput(ch));
         
-        // Wait for potential combo continuation
-        float timer = 0f;
-        int currentCombo = 1;
+        yield return new WaitForSeconds(comboCooldown);
         
-        while (timer < comboContinueWindow && currentCombo < maxCombo)
+        ch.ClearCurrentAttack();
+    }
+    
+    protected override IEnumerator PerformHitbox(CombatHandler ch)
+    {
+        yield return ch.StartCoroutine(CreateHitbox(ch));
+    }
+    
+private IEnumerator HandleComboInput(CombatHandler ch)
+{
+    Animator animator = ch.GetComponent<Animator>();
+    if (animator == null)
+    {
+        Debug.LogError("No Animator found on CombatHandler!");
+        yield break;
+    }
+    
+    yield return new WaitUntil(() => canContinueCombo);
+
+    int initHitRandom = Random.Range(1, 3);
+    animator.SetInteger(comboIntName, initHitRandom);
+    animator.SetTrigger(attackTriggerName);
+    firstAttackTriggered = true;
+    canContinueCombo = false;
+    
+    while (comboActive)
+    {
+        while (!canContinueCombo && comboActive)
         {
-            timer += Time.deltaTime;
-            
-            if (ShouldContinueCombo())
+            if (IsComboKeyPressed())
             {
-                yield return new WaitForSeconds(comboTransitionDelay);
-                animator.SetTrigger(attackTriggerName);
-                
-                timer = 0f; // Reset timer for next combo window
+                if (easyMode)
+                {
+                    comboInputReceived = true;
+                }
+                else
+                {
+                    // Hard mode: pressing too early ends the combo
+                    comboActive = false;
+                    break;
+                }
             }
-            
             yield return null;
         }
         
-        // Combo finished, trigger exit
-        yield return new WaitForSeconds(comboTransitionDelay);
-        animator.SetTrigger(exitTriggerName);
-        animator.SetInteger(comboIntName, 0); // Reset combo count
+        if (!comboActive) break;
+        
+        if (comboInputReceived)
+        {
+            animator.SetTrigger(attackTriggerName);
+            comboState++;
+            
+            comboInputReceived = false;
+            canContinueCombo = false;
+            comboHitAlready = false;
+            
+            if (comboState >= maxCombo - 1)
+            {
+                // Easy mode waits, hard mode doesn't
+                if (easyMode)
+                {
+                    yield return new WaitForSeconds(.25f);
+                }
+                break;
+            }
+        }
+        else
+        {
+            // Check for immediate input when combo window opens
+            if (IsComboKeyPressed())
+            {
+                animator.SetTrigger(attackTriggerName);
+                comboState++;
+                
+                comboInputReceived = false;
+                canContinueCombo = false;
+                comboHitAlready = false;
+                
+                if (comboState >= maxCombo - 1)
+                {
+                    // Easy mode waits, hard mode doesn't
+                    if (easyMode)
+                    {
+                        yield return new WaitForSeconds(.25f);
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                // Wait for input within the combo window
+                float timer = 0f;
+                bool inputReceived = false;
+                
+                while (timer < comboContinueWindow && !inputReceived)
+                {
+                    if (IsComboKeyPressed())
+                    {
+                        inputReceived = true;
+                        // Easy mode waits, hard mode doesn't
+                        if (easyMode)
+                        {
+                            yield return new WaitForSeconds(.25f);
+                        }
+                        break;
+                    }
+                    timer += Time.deltaTime;
+                    yield return null;
+                }
+                
+                if (inputReceived)
+                {
+                    animator.SetTrigger(attackTriggerName);
+                    comboState++;
+                    
+                    comboInputReceived = false;
+                    canContinueCombo = false;
+                    comboHitAlready = false;
+                    
+                    if (comboState >= maxCombo - 1)
+                    {
+                        // Easy mode waits, hard mode doesn't
+                        if (easyMode)
+                        {
+                            yield return new WaitForSeconds(.25f);
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        
+        yield return null;
     }
     
-    // Override this method or make it public to customize combo input
-    private bool ShouldContinueCombo()
-    {
-        // Example: Continue combo if attack button is pressed
-        // You might want to reference the input handler or use a different input method
-        return Input.GetKeyDown(KeyCode.Z); // Replace with your combo input
-    }
-    
-    // This method gets called by animation events for each hit in the combo
-    public void ExecuteComboHit(CombatHandler ch)
-    {
-        ch.StartCoroutine(CreateHitbox(ch));
-    }
-    
+    comboState = 0;
+    comboActive = false;
+    animator.SetTrigger(exitTriggerName);
+    animator.SetInteger(comboIntName, 0);
+}
     private IEnumerator CreateHitbox(CombatHandler ch)
     {
         yield return new WaitForSeconds(attackDelay);
-
+        
         Vector2 inDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
+        
         Vector2 size, offset;
         bool diag = false;
-
+        
         if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
         {
             size = hbUpSize;
@@ -127,26 +259,26 @@ public class ComboModule : AttackModule
             size = hbHorizontalSize;
             offset = hbHorizontalOff;
         }
-
+        
         if (ch.transform.localScale.x < 0)
             offset.x = -offset.x;
-
+        
         Vector2 kb = offset.normalized * knockbackForce;
         Debug.DrawRay(ch.transform.position, kb, Color.cyan, 0.5f);
-
-        var hbGO = new GameObject("Hitbox");
-
+        
+        var hbGO = new GameObject($"Hitbox_Combo_State_{currentComboState}");
+        
         hbGO.transform.position = ch.transform.position + (Vector3)offset;
         hbGO.transform.localScale = size;
-
+        
         if (diag)
         {
             float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
             hbGO.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
-
+        
         hbGO.transform.SetParent(ch.transform, worldPositionStays: true);
-
+        
         if (hitboxSprite != null)
         {
             var sr = hbGO.AddComponent<SpriteRenderer>();
@@ -154,13 +286,13 @@ public class ComboModule : AttackModule
             sr.color = hitboxColor;
             sr.sortingOrder = 100;
         }
-
+        
         var bc = hbGO.AddComponent<BoxCollider2D>();
         bc.isTrigger = true;
-
+        
         var hb = hbGO.AddComponent<Hitbox>();
         hb.Setup(kb, stunDuration, targetTag, 0.1f, ch.SelfCollider, offset);
-
+        
         Destroy(hbGO, hb.lifetime + 0.05f);
     }
 }

@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Combo
   m_EditorClassIdentifier: 
   animationTrigger: attackStart
-  maxCombo: 3
-  comboContinueWindow: 1
-  comboTransitionDelay: 0.2
+  maxCombo: 6
+  comboContinueWindow: 0.5
+  comboCooldown: 0.5
   comboIntName: attackClip
   attackTriggerName: attackTrigger
   exitTriggerName: attackExit
+  easyMode: 1
   hitboxSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   hitboxColor: {r: 1, g: 0, b: 0, a: 0.5}
   hbHorizontalSize: {x: 15, y: 15}

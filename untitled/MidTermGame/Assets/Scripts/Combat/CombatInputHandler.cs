@@ -1,3 +1,4 @@
+using Modules.Combat;
 using UnityEngine;
 
 public class CombatInputHandler : MonoBehaviour
@@ -19,15 +20,6 @@ public class CombatInputHandler : MonoBehaviour
             {
                 combatHandler.StartAttack(attackModules[i]);
             }
-        }
-    }
-    
-    // Public method to trigger attack by index (for UI or other systems)
-    public void PerformAttackByIndex(int index)
-    {
-        if (index >= 0 && index < attackModules.Length && attackModules[index] != null && combatHandler != null)
-        {
-            combatHandler.StartAttack(attackModules[index]);
         }
     }
 }
