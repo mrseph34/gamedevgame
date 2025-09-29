@@ -11,6 +11,7 @@ namespace Modules.Combat
         public float dashDuration = 0.3f; // How long the dash lasts
         public AnimationCurve dashCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
         public float dragDuringDash = 0.5f; // Rigidbody2D.drag during dash
+        public float dashCooldown = 1f;
 
         [Header("Dash Physics")]
         public bool ignoreGravityDuringDash = true;
@@ -20,6 +21,7 @@ namespace Modules.Combat
         Rigidbody2D cachedRb;
         float originalDrag;
         float originalGravity;
+        float lastDashTime = 9999;
 
         protected override IEnumerator PerformAttack(CombatHandler ch)
         {
@@ -28,13 +30,21 @@ namespace Modules.Combat
 
         public IEnumerator ExecuteDash(CombatHandler ch)
         {
+            // Debug.Log(Time.time);
+            // Debug.Log(lastDashTime);
+            // Debug.Log(dashCooldown);
+            // Debug.Log(lastDashTime + dashCooldown);
+            // if (Time.time < lastDashTime + dashCooldown)
+            //     yield break;
+
             cachedRb = ch.GetComponent<Rigidbody2D>();
             if (cachedRb == null)
             {
                 Debug.LogError("DashMoveModule requires a Rigidbody2D on the CombatHandler!");
                 yield break;
             }
-
+            
+            lastDashTime = Time.time;
             originalDrag = cachedRb.linearDamping;
             originalGravity = cachedRb.gravityScale;
 
@@ -65,7 +75,7 @@ namespace Modules.Combat
             }
 
             RestorePhysics();
-
+            ch.ClearCurrentAttack();
             ch.StateHandler.ChangeState(StateHandler.State.Grounded);
         }
 
@@ -97,7 +107,6 @@ namespace Modules.Combat
 
         private void OnDisable()
         {
-            // in case the SO is destroyed while dashing
             RestorePhysics();
         }
     }

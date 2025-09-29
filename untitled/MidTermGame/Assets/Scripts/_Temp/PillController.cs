@@ -57,66 +57,56 @@ public class PillController : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // 1) Ground/surface check
-        isGrounded =
-            Physics2D.Raycast(
-                transform.position,
-                -transform.up,
-                groundRayDistance,
-                groundLayer
-            ).collider != null;
-
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, rayDistance, groundLayer);
-
-        
-
+        isGrounded = Physics2D.Raycast(transform.position, -transform.up, groundRayDistance, groundLayer).collider != null;
 
         var state = stateHandler.CurrentState;
 
-        // 2) Jump input
         if (state == StateHandler.State.Grounded && isGrounded && Input.GetButtonDown("Jump"))
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 1.8f);
             stateHandler.ChangeState(StateHandler.State.Jumping);
         }
 
-        // 3) State transitions
+        if (state == StateHandler.State.Jumping && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity += Vector2.down * 25f * Time.deltaTime;
+        }
+
+        if (state == StateHandler.State.Jumping && Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.3f);
+            stateHandler.ChangeState(StateHandler.State.Falling);
+        }
+
+        if (state == StateHandler.State.Falling)
+        {
+            rb.linearVelocity += Vector2.down * 20f * Time.deltaTime;
+        }
+
         if (state == StateHandler.State.Grounded)
         {
-            // walked off a ledge?
             if (!isGrounded)
                 stateHandler.ChangeState(StateHandler.State.Falling);
         }
         else if (state == StateHandler.State.Jumping)
         {
-            // reached apex, now falling?
             if (rb.linearVelocity.y < 0f)
                 stateHandler.ChangeState(StateHandler.State.Falling);
         }
         else if (state == StateHandler.State.Falling)
         {
-            // landed?
             if (isGrounded)
                 stateHandler.ChangeState(StateHandler.State.Grounded);
         }
 
-        // 4) Flip
         if (horizontalInput > 0 && !facingRight)
             Flip();
         else if (horizontalInput < 0 && facingRight)
             Flip();
 
-        bool playerInput = Mathf.Abs(horizontalInput) > 0f;
-        bool playerMoving = playerInput;
-        if (playerMoving)
-        {
-            playerAnimator.SetBool("playerMove", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("playerMove", false);
-            playerAnimator.SetBool("playerIdle", true);
-        }
+        bool playerMoving = Mathf.Abs(horizontalInput) > 0f;
+        playerAnimator.SetBool("playerMove", playerMoving);
+        playerAnimator.SetBool("playerIdle", !playerMoving);
     }
 
     void FixedUpdate()
