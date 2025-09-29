@@ -17,11 +17,14 @@ namespace Modules.Combat
         public bool ignoreGravityDuringDash = true;
         public LayerMask collisionLayers = ~0; // what layers to collide with
 
+        [Header("Jump Detection")]
+        public float upwardAngleThreshold = 10f; // If dash is within this many degrees of straight up, treat as jump
+
         // temporary storage
         Rigidbody2D cachedRb;
         float originalDrag;
         float originalGravity;
-        float lastDashTime = 9999;
+        Quaternion originalRotation;
 
         protected override IEnumerator PerformAttack(CombatHandler ch)
         {
@@ -30,31 +33,62 @@ namespace Modules.Combat
 
         public IEnumerator ExecuteDash(CombatHandler ch)
         {
-            // Debug.Log(Time.time);
-            // Debug.Log(lastDashTime);
-            // Debug.Log(dashCooldown);
-            // Debug.Log(lastDashTime + dashCooldown);
-            // if (Time.time < lastDashTime + dashCooldown)
-            //     yield break;
-
+            Animator animator = ch.GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogError("No Animator found on CombatHandler!");
+                yield break;
+            }
+    
             cachedRb = ch.GetComponent<Rigidbody2D>();
             if (cachedRb == null)
             {
                 Debug.LogError("DashMoveModule requires a Rigidbody2D on the CombatHandler!");
                 yield break;
             }
-            
-            lastDashTime = Time.time;
+
             originalDrag = cachedRb.linearDamping;
             originalGravity = cachedRb.gravityScale;
+            originalRotation = ch.transform.rotation;
+
+            Vector2 dashDir = GetDashDirection(ch);
+            
+            // Check if dashing nearly straight up
+            float angleFromUp = Vector2.Angle(dashDir, Vector2.up);
+            bool isNearVertical = angleFromUp <= upwardAngleThreshold;
+
+            if (isNearVertical)
+            {
+                animator.SetTrigger("playerJump");
+                animator.SetBool("playerJumping", true);
+            }
+            else
+            {
+                animator.SetBool("isDashing", true);
+                // Only rotate if doing a regular dash (not a jump)
+                
+                bool facingLeft = ch.transform.localScale.x < 0;
+                
+                // If facing left, mirror the dash direction to right side for rotation calculation
+                Vector2 rotationDir = dashDir;
+                float angle;
+                if (facingLeft)
+                {
+                    rotationDir.x = -rotationDir.x; // Flip X to treat it as if facing right
+                    angle = Mathf.Atan2(-rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+                }
+                else {
+                    angle = Mathf.Atan2(rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+                }
+                
+                ch.transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
 
             ch.StateHandler.ChangeState(StateHandler.State.Dashing);
 
-            Vector2 dashDir = GetDashDirection(ch);
             Vector2 startVel = dashDir * dashForce;
             cachedRb.linearVelocity = startVel;
 
-            // tweak drag/gravity
             cachedRb.linearDamping = dragDuringDash;
             if (ignoreGravityDuringDash)
                 cachedRb.gravityScale = 0f;
@@ -75,8 +109,29 @@ namespace Modules.Combat
             }
 
             RestorePhysics();
-            ch.ClearCurrentAttack();
+            
+            // Only restore rotation if we rotated (i.e., not a jump)
+            if (!isNearVertical)
+            {
+                ch.transform.rotation = originalRotation;
+            }
+            
+            if (isNearVertical)
+            {
+                animator.SetBool("playerJumping", false);
+            }
+            else
+            {
+                animator.SetBool("isDashing", false);
+            }
+            
             ch.StateHandler.ChangeState(StateHandler.State.Grounded);
+    
+            // Add cooldown
+            ch.ClearCurrentAttack();
+            ch.SetModuleCooldown(this, true);
+            yield return new WaitForSeconds(dashCooldown);
+            ch.SetModuleCooldown(this, false);
         }
 
         /// If the player is holding a direction, dash that way;

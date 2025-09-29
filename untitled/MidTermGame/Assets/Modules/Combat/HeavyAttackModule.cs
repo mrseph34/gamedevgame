@@ -11,10 +11,12 @@ namespace Modules.Combat
         public float windupDuration = 0.5f;
         public string attackTrigger = "heavyAttack";
         // public string comboIntName = "heavyClip"; // use later for random heavy attacks?
+        public string heavyNotifier = "isHeavy";
         public string heavyExitTrigger = "heavyExit";
     
         [Header("Difficulty Settings")]
         public bool easyMode = true;
+        public float heavyCooldown = 1.0f;
     
         [Header("Knockback Settings")]
         public float minKnockbackForce = 5f;
@@ -65,6 +67,9 @@ namespace Modules.Combat
             chargeTime = 0f;
         
             animator.SetTrigger(animationTrigger);
+            animator.ResetTrigger(attackTrigger);
+            animator.ResetTrigger(heavyExitTrigger);
+            animator.SetBool("isHeavy", true);
             yield return new WaitForSeconds(windupDuration);
         
             if (easyMode)
@@ -80,7 +85,7 @@ namespace Modules.Combat
         private IEnumerator ExecuteEasyMode(CombatHandler ch, Animator animator)
         {
             isCharging = true;
-        
+
             while (isCharging && chargeTime < maxHoldTime)
             {
                 if (IsHeavyKeyHeld(ch))
@@ -93,19 +98,26 @@ namespace Modules.Combat
                 }
                 yield return null;
             }
-        
+
             isCharging = false;
             chargeTime = Mathf.Clamp(chargeTime, 0f, maxHoldTime);
-        
+
             animator.SetTrigger(attackTrigger);
-            ch.ClearCurrentAttack();
-        }
     
+            // Add cooldown
+            animator.SetBool("isHeavy", false);
+            ch.SetModuleCooldown(this, true);
+            yield return new WaitForSeconds(.5f);
+            ch.ClearCurrentAttack();
+            yield return new WaitForSeconds(heavyCooldown-.5f);
+            ch.SetModuleCooldown(this, false);
+        }
+        
         private IEnumerator ExecuteHardMode(CombatHandler ch, Animator animator)
         {
             isCharging = true;
             bool keyHeld = true;
-        
+
             while (isCharging && chargeTime < maxHoldTime)
             {
                 if (IsHeavyKeyHeld(ch))
@@ -119,12 +131,11 @@ namespace Modules.Combat
                 }
                 yield return null;
             }
-        
+
             isCharging = false;
-        
-            // Fixed hard mode timing: must release between windupDuration and maxHoldTime
+
             bool validTiming = !keyHeld && chargeTime >= windupDuration && chargeTime <= maxHoldTime;
-        
+
             if (validTiming)
             {
                 chargeTime = Mathf.Clamp(chargeTime, 0f, maxHoldTime);
@@ -134,10 +145,16 @@ namespace Modules.Combat
             {
                 animator.SetTrigger(heavyExitTrigger);
             }
-        
-            ch.ClearCurrentAttack();
-        }
     
+            // Add cooldown
+            animator.SetBool("isHeavy", false);
+            ch.SetModuleCooldown(this, true);
+            yield return new WaitForSeconds(.5f);
+            ch.ClearCurrentAttack();
+            yield return new WaitForSeconds(heavyCooldown-.5f);
+            ch.SetModuleCooldown(this, false);
+        }
+        
         protected override IEnumerator PerformHitbox(CombatHandler ch)
         {
             yield return ch.StartCoroutine(CreateHitbox(ch));
@@ -160,10 +177,11 @@ namespace Modules.Combat
                 size = hbUpSize;
                 offset = hbUpOff;
             }
-            else if (inDir.y < -0.5f && Mathf.Abs(inDir.x) < 0.1f)
+            else if (inDir.y < -0.5f && Mathf.Abs(inDir.x) > 0.5f)
             {
-                size = hbDownSize;
-                offset = hbDownOff;
+                size = hbDiagSize;
+                offset = new Vector2(hbDiagOff.x, -hbDiagOff.y);
+                diag = true;
             }
             else if (inDir.y > 0.5f && Mathf.Abs(inDir.x) > 0.5f)
             {

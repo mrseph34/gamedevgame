@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fc93da12b04480a67a5ae72a0de003, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  attackKey: 105
-  cooldown: 0.5
-  onCooldown: 0
-  lastUsedTime: 4.679952
+  animationTrigger: 
   dashForce: 40
   dashDuration: 0.25
   dashCurve:
@@ -43,6 +40,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dragDuringDash: 0.5
+  dashCooldown: 1
   ignoreGravityDuringDash: 1
   collisionLayers:
     serializedVersion: 2

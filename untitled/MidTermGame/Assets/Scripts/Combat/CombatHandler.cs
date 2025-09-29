@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Modules.Combat;
 
 public class CombatHandler : MonoBehaviour
@@ -14,7 +15,8 @@ public class CombatHandler : MonoBehaviour
     public StunHandler StunHandler { get; private set; }
     
     private AttackModule currentAttackModule;
-    private bool isAttacking = false;
+    
+    private Dictionary<AttackModule, bool> moduleCooldowns = new Dictionary<AttackModule, bool>();
     
     private void Awake()
     {
@@ -31,11 +33,16 @@ public class CombatHandler : MonoBehaviour
     
     public void StartAttack(AttackModule attackModule)
     {
-        if (attackModule != null && !isAttacking)
+        if (attackModule == null) return;
+    
+        // Check if this specific module is on cooldown
+        if (moduleCooldowns.ContainsKey(attackModule) && moduleCooldowns[attackModule]) return;
+    
+        if (!animator.GetBool("playerAttacking"))
         {
-            isAttacking = true;
+            animator.SetBool("playerAttacking", true);
             currentAttackModule = attackModule;
-            
+        
             if (string.IsNullOrEmpty(attackModule.animationTrigger))
             {
                 StartCoroutine(attackModule.ExecuteAttack(this));
@@ -46,6 +53,21 @@ public class CombatHandler : MonoBehaviour
                 StartCoroutine(attackModule.ExecuteAttack(this));
             }
         }
+    }
+    
+    public void SetModuleCooldown(AttackModule module, bool onCooldown)
+    {
+        moduleCooldowns[module] = onCooldown;
+    }
+    
+    public bool GetModuleCooldown(AttackModule module)
+    {
+        return moduleCooldowns[module];
+    }
+
+    public bool IsModuleOnCooldown(AttackModule module)
+    {
+        return moduleCooldowns.ContainsKey(module) && moduleCooldowns[module];
     }
     
     public void TriggerAttack()
@@ -67,7 +89,7 @@ public class CombatHandler : MonoBehaviour
     public void ClearCurrentAttack()
     {
         currentAttackModule = null;
-        isAttacking = false;
+        animator.SetBool("playerAttacking", false);
     }
     
     public void CanContinueCombo()
