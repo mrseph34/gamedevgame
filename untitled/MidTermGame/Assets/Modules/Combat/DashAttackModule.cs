@@ -95,7 +95,7 @@ namespace Modules.Combat
             cachedRb.gravityScale = originalGravityScale;
 
             // Return to normal state
-            ch.StateHandler.ChangeState(StateHandler.State.Grounded);
+            ch.StateHandler.ChangeState(StateHandler.State.Moving);
         }
 
         private IEnumerator HandleAttack(CombatHandler ch, Vector2 dashDirection)

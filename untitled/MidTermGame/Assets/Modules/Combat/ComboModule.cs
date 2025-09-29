@@ -47,7 +47,13 @@ public class ComboModule : AttackModule
         CombatInputHandler inputHandler = FindObjectOfType<CombatInputHandler>();
         if (inputHandler != null)
         {
-            return inputHandler.IsAttackInputPressed(this);
+            for (int i = 0; i < inputHandler.attackModules.Length; i++)
+            {
+                if (inputHandler.attackModules[i] == this)
+                {
+                    return Input.GetKeyDown(inputHandler.inputKeys[i]);
+                }
+            }
         }
         return false;
     }

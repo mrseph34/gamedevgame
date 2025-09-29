@@ -82,7 +82,7 @@ public class AiPillController : MonoBehaviour
                     awayTimer += Time.deltaTime;
                     if (awayTimer >= recoveryDelay)
                     {
-                        stateHandler.ChangeState(StateHandler.State.Grounded);
+                        stateHandler.ChangeState(StateHandler.State.Moving);
                         awayTimer = 0f;
                     }
                 }

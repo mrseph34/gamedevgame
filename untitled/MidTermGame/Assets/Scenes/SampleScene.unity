@@ -404,9 +404,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0.5
+  m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -539,17 +539,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 6
-  stickForce: 10
   groundRayDistance: 1.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  rayDistance: 0.4
-  groundishLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  combatHandlerDash: {fileID: 0}
-  combatHandlerAttack: {fileID: 0}
 --- !u!114 &347734163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,10 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatHandler: {fileID: 347734166}
-  inputActions:
-  - {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  - {fileID: 8237958180729305135, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  - {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  inputKeys: 6a0000006b0000006c000000
   attackModules:
   - {fileID: 11400000, guid: 2ee4df727208a404e9518afd876c33f9, type: 2}
   - {fileID: 11400000, guid: cbdd32b4c2f6e4f078a64bd8056ab448, type: 2}

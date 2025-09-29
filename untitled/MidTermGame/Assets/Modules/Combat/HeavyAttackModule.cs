@@ -47,7 +47,13 @@ namespace Modules.Combat
             CombatInputHandler inputHandler = FindObjectOfType<CombatInputHandler>();
             if (inputHandler != null)
             {
-                return inputHandler.IsAttackInputHeld(this);
+                for (int i = 0; i < inputHandler.attackModules.Length; i++)
+                {
+                    if (inputHandler.attackModules[i] == this)
+                    {
+                        return Input.GetKey(inputHandler.inputKeys[i]);
+                    }
+                }
             }
             return false;
         }

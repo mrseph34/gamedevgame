@@ -46,7 +46,7 @@
                     "name": "Crouch",
                     "type": "Button",
                     "id": "27c5f898-bc57-4ee1-8800-db469aca5fe3",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -91,15 +91,6 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "a944f4a3-2c40-4c34-855c-931577c2ed2b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Heavy",
-                    "type": "Button",
-                    "id": "a069a22a-5e50-4f23-90c9-2661c4d94dbb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -297,7 +288,7 @@
                 {
                     "name": "",
                     "id": "b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -489,39 +480,6 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "31fac766-8748-48ec-b8e3-410b4e6d3617",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9cbb81ac-9cf5-45d0-ae92-33bbcf4e56db",
-                    "path": "<HID::Core (Plus) Wired Controller>/button2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Heavy",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e2a41ea0-841f-4c17-a9cc-e42ae7cd9e3b",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Heavy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
