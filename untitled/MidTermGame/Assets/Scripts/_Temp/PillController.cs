@@ -20,12 +20,10 @@ public class PillController : MonoBehaviour
     public LayerMask groundishLayer;
 
     [Header("Dash")]
-    public DashMoveModule dashModule; 
     public CombatHandler combatHandlerDash; 
 
     [Header("Attack")]
     public CombatHandler combatHandlerAttack;
-
 
     InputSystem_Actions controls;
 
@@ -43,10 +41,7 @@ public class PillController : MonoBehaviour
         combatHandlerAttack = GetComponent<CombatHandler>();
 
         controls = new InputSystem_Actions();
-        controls.Player.Dash.performed += ctx => DoDash();
-        controls.Player.Attack.performed += ctx => DoAttack();
-
-
+        
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -143,29 +138,7 @@ public class PillController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
         }
     }
-
-    void DoDash()
-    {
-        // Prevent double dash, falling dash, etc. if you like
-        if (dashModule != null && combatHandlerDash != null)
-        {
-            StartCoroutine(dashModule.ExecuteDash(combatHandlerDash));
-        }
-    }
-
-    void DoAttack()
-    {
-        if (combatHandlerAttack == null) return;
-
-        foreach (var atk in combatHandlerAttack.attacks)
-        {
-            atk.ExecuteAttack(combatHandlerAttack);
-            Debug.Log("ATTACK");
-        }
-    }
-
-
-
+    
     void Flip()
     {
         facingRight = !facingRight;

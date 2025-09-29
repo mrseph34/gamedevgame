@@ -66,7 +66,7 @@ namespace Modules.Combat
 
             RestorePhysics();
 
-            ch.StateHandler.ChangeState(StateHandler.State.Moving);
+            ch.StateHandler.ChangeState(StateHandler.State.Grounded);
         }
 
         /// If the player is holding a direction, dash that way;
