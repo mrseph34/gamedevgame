@@ -1,17 +1,28 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public abstract class AttackModule : ScriptableObject
+namespace Modules.Combat
 {
-    [Header("Animation")]
-    public string animationTrigger;
-    
-    // Public method that returns the coroutine for CombatHandler to execute
-    public IEnumerator ExecuteAttack(CombatHandler combatHandler)
+    public abstract class AttackModule : ScriptableObject
     {
-        yield return combatHandler.StartCoroutine(PerformAttack(combatHandler));
-    }
+        [Header("Animation")]
+        public string animationTrigger;
     
-    // Abstract method that each attack type implements
-    protected abstract IEnumerator PerformAttack(CombatHandler combatHandler);
+        public IEnumerator ExecuteAttack(CombatHandler combatHandler)
+        {
+            yield return combatHandler.StartCoroutine(PerformAttack(combatHandler));
+        }
+    
+        public IEnumerator ExecuteHitbox(CombatHandler combatHandler)
+        {
+            yield return combatHandler.StartCoroutine(PerformHitbox(combatHandler));
+        }
+    
+        protected abstract IEnumerator PerformAttack(CombatHandler combatHandler);
+    
+        protected virtual IEnumerator PerformHitbox(CombatHandler combatHandler)
+        {
+            yield break;
+        }
+    }
 }

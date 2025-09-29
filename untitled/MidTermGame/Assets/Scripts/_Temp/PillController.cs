@@ -8,13 +8,29 @@ public class PillController : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
+    public float stickForce = 10f;
+
 
     [Header("Ground Check")]
     public float groundRayDistance = 0.2f;
     public LayerMask groundLayer;
 
+    [Header("Surface Detection")]
+    public float rayDistance = 0.4f;
+    public LayerMask groundishLayer;
+
+    [Header("Dash")]
+    public CombatHandler combatHandlerDash; 
+
+    [Header("Attack")]
+    public CombatHandler combatHandlerAttack;
+
+    InputSystem_Actions controls;
+
     Rigidbody2D rb;
     StateHandler stateHandler;
+    Vector2 surfaceNormal = Vector2.up;
+    bool isAttached = false;
     float horizontalInput;
     bool isGrounded;
     bool facingRight = true;
@@ -22,6 +38,10 @@ public class PillController : MonoBehaviour
 
     void Awake()
     {
+        combatHandlerAttack = GetComponent<CombatHandler>();
+
+        controls = new InputSystem_Actions();
+        
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -29,13 +49,15 @@ public class PillController : MonoBehaviour
         stateHandler.ChangeState(StateHandler.State.Grounded);
 
         playerAnimator = GetComponent<Animator>();
+
+
     }
 
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // 1) Ground check
+        // 1) Ground/surface check
         isGrounded =
             Physics2D.Raycast(
                 transform.position,
@@ -43,6 +65,11 @@ public class PillController : MonoBehaviour
                 groundRayDistance,
                 groundLayer
             ).collider != null;
+
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, rayDistance, groundLayer);
+
+        
+
 
         var state = stateHandler.CurrentState;
 
@@ -111,7 +138,7 @@ public class PillController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
         }
     }
-
+    
     void Flip()
     {
         facingRight = !facingRight;
@@ -119,6 +146,12 @@ public class PillController : MonoBehaviour
         ls.x *= -1;
         transform.localScale = ls;
     }
+
+    void OnEnable() => controls.Enable();
+
+    void OnDisable() => controls.Player.Disable();
+    
+
 
     void OnDrawGizmosSelected()
     {
