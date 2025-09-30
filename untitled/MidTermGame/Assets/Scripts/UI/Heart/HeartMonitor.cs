@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEditor.Animations;
 
 [RequireComponent(typeof(PulseHandler))]
 public class HeartMonitor : MonoBehaviour
@@ -40,6 +41,9 @@ public class HeartMonitor : MonoBehaviour
     // Events
     public event Action OnBeat;
     public event Action<float> OnHit; // flash duration
+
+    // Animator refs
+    public Animator playerAnimator;
 
     // UI refs
     private RectTransform heartRect;
@@ -127,13 +131,19 @@ public class HeartMonitor : MonoBehaviour
         if (bpm <= 0f)
         {
             Debug.Log("BPM reached 0! Restarting scene...");
-            StartCoroutine(RestartSceneAfterDelay(0.5f)); // optional delay
+            StartCoroutine(RestartSceneAfterDelay()); // optional delay
         }
     }
 
-    private IEnumerator RestartSceneAfterDelay(float delay)
+    private IEnumerator RestartSceneAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
+        AnimatorStateInfo playerStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        while (!playerStateInfo.IsName("P1_Death_Clip"))
+        {
+            yield return null;
+            playerStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        }
+        yield return new WaitForSeconds(playerStateInfo.length);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
     }

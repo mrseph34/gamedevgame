@@ -351,6 +351,7 @@ MonoBehaviour:
   delayBeforeIncrease: 3
   autoIncreaseRate: 10
   pulseAmplitude: 0.1
+  playerAnimator: {fileID: 0}
 --- !u!114 &179004594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +486,7 @@ MonoBehaviour:
   delayBeforeIncrease: 10
   autoIncreaseRate: 5
   pulseAmplitude: 0.2
+  playerAnimator: {fileID: 347734171}
 --- !u!114 &184819989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,6 +975,7 @@ MonoBehaviour:
   delayBeforeIncrease: 10
   autoIncreaseRate: 5
   pulseAmplitude: 0.2
+  playerAnimator: {fileID: 347734171}
 --- !u!114 &347734168
 MonoBehaviour:
   m_ObjectHideFlags: 0
