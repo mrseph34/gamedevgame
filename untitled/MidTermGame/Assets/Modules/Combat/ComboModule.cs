@@ -31,6 +31,7 @@ public class ComboModule : AttackModule
     [Header("Timing & Effects")]
     public float attackDelay = 0.1f;
     public float knockbackForce = 5f;
+    public float lastHitKnockbackForce = 10f; 
     public float stunDuration = 0.5f;
     public string targetTag = "Player";
 
@@ -188,7 +189,7 @@ public class ComboModule : AttackModule
             for (int hit = 1; hit < maxCombo; hit++)
             {
                 // Check if entire combo has timed out
-                if (Time.time - comboStartTime > comboContinueWindow)
+                if (Time.time - comboStartTime > comboContinueWindow * 1.1f)
                 {
                     Debug.LogWarning("ComboModule: Entire combo sequence timed out");
                     break;
@@ -398,7 +399,9 @@ public class ComboModule : AttackModule
         if (ch.transform.localScale.x < 0)
             offset.x = -offset.x;
         
-        Vector2 kb = offset.normalized * knockbackForce;
+        bool isLastHit = (comboHandlerInt == maxCombo);
+        float currentKnockback = isLastHit ? lastHitKnockbackForce : knockbackForce;
+        Vector2 kb = offset.normalized * currentKnockback;
         Debug.DrawRay(ch.transform.position, kb, Color.cyan, 0.5f);
         
         var hbGO = new GameObject($"Hitbox_Combo_State_{comboHandlerInt}");

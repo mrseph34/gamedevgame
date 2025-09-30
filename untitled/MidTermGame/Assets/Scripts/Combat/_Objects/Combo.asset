@@ -31,7 +31,8 @@ MonoBehaviour:
   hbDiagSize: {x: 5, y: 10}
   hbDiagOff: {x: 1, y: 1}
   attackDelay: 0
-  knockbackForce: 5
+  knockbackForce: 2
+  lastHitKnockbackForce: 15
   stunDuration: 0.5
   targetTag: Player
   maxRotationAngle: 30
