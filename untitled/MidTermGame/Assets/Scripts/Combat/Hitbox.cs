@@ -109,8 +109,10 @@ public class Hitbox : MonoBehaviour
                 }
             }
 
+            float damageRand = Random.Range(0.8f, 1.5f);
+            int finalDamage = (int)(damage * damageRand);
             // Normal hit logic - apply damage, knockback, and stun
-            sh.ReceiveHit(knockback, stunDuration, damage);
+            sh.ReceiveHit(knockback, stunDuration, finalDamage);
             targetAnimator.SetTrigger("playerHit");
             
             if (targetAnimator.GetBool("playerAttacking"))
