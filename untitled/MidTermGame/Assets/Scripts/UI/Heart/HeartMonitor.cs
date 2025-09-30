@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEditor.Animations;
 
 [RequireComponent(typeof(PulseHandler))]
 public class HeartMonitor : MonoBehaviour
@@ -45,6 +44,10 @@ public class HeartMonitor : MonoBehaviour
     // Animator refs
     public Animator playerAnimator;
 
+    // Audio refs
+    public AudioSource playerAudio;
+    public AudioClip hitClip;
+
     // UI refs
     private RectTransform heartRect;
     private Image heartImage;
@@ -62,6 +65,8 @@ public class HeartMonitor : MonoBehaviour
             gameObject.AddComponent<PulseHandler>();
         if (GetComponent<HitFlashHandler>() == null)
             gameObject.AddComponent<HitFlashHandler>();
+
+        playerAnimator = GetComponent<Animator>();
 
         CreateUI();
         bpm = Mathf.Clamp(bpm, minBPM, maxBPM);
@@ -130,21 +135,24 @@ public class HeartMonitor : MonoBehaviour
         //restart when bpm = 0
         if (bpm <= 0f)
         {
+            playerAnimator.SetBool("isDead", true);
+            playerAnimator.SetBool("canAttack", false);
+            DoSomethingAfterDelay();
+            
             Debug.Log("BPM reached 0! Restarting scene...");
-            playerAnimator.SetTrigger("playerDeath");
-            StartCoroutine(RestartSceneAfterDelay()); // optional delay
+            StartCoroutine(RestartSceneAfterDelay(5f)); // optional delay
         }
     }
 
-    private IEnumerator RestartSceneAfterDelay()
+    private IEnumerator DoSomethingAfterDelay()
     {
-        AnimatorStateInfo playerStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        while (!playerStateInfo.IsName("P1_Death_Clip"))
-        {
-            yield return null;
-            playerStateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        }
-        yield return new WaitForSeconds(playerStateInfo.length);
+        yield return new WaitForSeconds(0.2f);  // Wait for 0.2 seconds
+        playerAnimator.enabled = false;
+    }
+
+    private IEnumerator RestartSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
     }
@@ -200,8 +208,14 @@ public class HeartMonitor : MonoBehaviour
 
     public void TakeDamage(int dmg, float adjustRate = 30f, float flashDuration = 1f)
     {
+        playHitSound();
         AdjustBPM(-dmg, adjustRate);
         OnHit?.Invoke(flashDuration);
+    }
+
+    public void playHitSound()
+    {
+        playerAudio.PlayOneShot(hitClip);
     }
 
     // Expose for handlers
