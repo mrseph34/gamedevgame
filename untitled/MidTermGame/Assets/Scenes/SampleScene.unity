@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db8ab4bd520c4c099f349ff3eb971dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionConfig: {fileID: 11400000, guid: 04f5434fdf5674d6486391819974d9f9, type: 2}
+  positionConfig: {fileID: 11400000, guid: debc2fd6196e44f69950ecd8e1696a07, type: 2}
   heartSprite: {fileID: 49066913392313123, guid: 2329a5fb7917142ecb0bc9264b73a147, type: 3}
   initialSize: {x: 100, y: 100}
   minBPM: 0
@@ -683,7 +683,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2633684472559265683, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 2}
