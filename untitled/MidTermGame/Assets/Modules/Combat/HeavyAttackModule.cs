@@ -195,7 +195,13 @@ namespace Modules.Combat
             isCharging = false;
             chargeTime = Mathf.Clamp(chargeTime, 0f, maxHoldTime);
 
-            animator.SetTrigger(attackTrigger);
+            Vector2 inDir = GetPlayerMoveInput(ch);
+            if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
+            {
+                animator.SetTrigger("playerOverhead");
+            } else {
+                animator.SetTrigger(attackTrigger); 
+            }
     
             // Add cooldown
             animator.SetBool("isHeavy", false);
@@ -232,7 +238,13 @@ namespace Modules.Combat
             if (validTiming)
             {
                 chargeTime = Mathf.Clamp(chargeTime, 0f, maxHoldTime);
-                animator.SetTrigger(attackTrigger);
+                Vector2 inDir = GetPlayerMoveInput(ch);
+                if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
+                {
+                    animator.SetTrigger("playerOverhead");
+                } else {
+                    animator.SetTrigger(attackTrigger); 
+                }
             }
             else
             {
@@ -278,8 +290,6 @@ namespace Modules.Combat
         
             if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
             {
-                Animator animator = ch.GetComponent<Animator>();
-                animator.SetTrigger("playerOverhead");
                 size = hbUpSize;
                 offset = hbUpOff;
             }

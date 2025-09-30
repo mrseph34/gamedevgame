@@ -199,7 +199,13 @@ public class ComboModule : AttackModule
             // FIRST HIT
             int initHitRandom = Random.Range(1, 3);
             animator.SetInteger(comboIntName, initHitRandom);
-            animator.SetTrigger(attackTriggerName);
+            Vector2 inDir = GetPlayerMoveInput(ch);
+            if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
+            { 
+                animator.SetTrigger("playerOverhead");
+            } else {
+                animator.SetTrigger(attackTriggerName); 
+            }
             animator.ResetTrigger(exitTriggerName);
             comboHandlerInt = 1;
             canContinueCombo = false;
@@ -287,7 +293,12 @@ public class ComboModule : AttackModule
                 {
                     isRotationLocked = false;
                     
-                    animator.SetTrigger(attackTriggerName);
+                    if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
+                    {
+                        animator.SetTrigger("playerOverhead");
+                    } else {
+                        animator.SetTrigger(attackTriggerName); 
+                    }
                     comboHandlerInt++;
                     canContinueCombo = false;
                     inputBuffered = false;
@@ -378,8 +389,6 @@ public class ComboModule : AttackModule
         
         if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
         {
-            Animator animator = ch.GetComponent<Animator>();
-            animator.SetTrigger("playerOverhead");
             size = hbUpSize;
             offset = hbUpOff;
         }
