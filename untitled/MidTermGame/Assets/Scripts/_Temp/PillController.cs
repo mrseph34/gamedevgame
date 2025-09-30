@@ -5,11 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(StateHandler))]
 public class PillController : MonoBehaviour
 {
+    public bool isPlayer1 = true;
+    private InputSystem_Actions controls;
+    private InputSystem_Actions.Player1Actions player1Controls;
+    private InputSystem_Actions.Player2Actions player2Controls;
+    
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
     public float stickForce = 10f;
-
 
     [Header("Ground Check")]
     public float groundRayDistance = 0.2f;
@@ -24,8 +28,6 @@ public class PillController : MonoBehaviour
 
     [Header("Attack")]
     public CombatHandler combatHandlerAttack;
-
-    InputSystem_Actions controls;
 
     Rigidbody2D rb;
     StateHandler stateHandler;
@@ -45,6 +47,17 @@ public class PillController : MonoBehaviour
         combatHandlerAttack = GetComponent<CombatHandler>();
 
         controls = new InputSystem_Actions();
+        
+        if (isPlayer1)
+        {
+            player1Controls = controls.Player1;
+            player1Controls.Enable();
+        }
+        else
+        {
+            player2Controls = controls.Player2;
+            player2Controls.Enable();
+        }
         
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -72,28 +85,35 @@ public class PillController : MonoBehaviour
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        // Get horizontal input based on player
+        Vector2 moveInput = isPlayer1 
+            ? player1Controls.Move.ReadValue<Vector2>() 
+            : player2Controls.Move.ReadValue<Vector2>();
+        horizontalInput = moveInput.x;
 
         isGrounded = Physics2D.Raycast(transform.position, -transform.up, groundRayDistance, groundLayer).collider != null;
         playerAnimator.SetBool("playerGrounded", isGrounded);
         
         var state = stateHandler.CurrentState;
 
-        if (state == StateHandler.State.Grounded && isGrounded && Input.GetButtonDown("Jump"))
+        // Jump input - use appropriate player's jump action
+        var jumpAction = isPlayer1 ? player1Controls.Jump : player2Controls.Jump;
+
+        if (state == StateHandler.State.Grounded && isGrounded && jumpAction.WasPressedThisFrame())
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 1.8f);
             stateHandler.ChangeState(StateHandler.State.Jumping);
         }
 
         if (state == StateHandler.State.Jumping && rb.linearVelocity.y > 0)
-        { ;
+        {
             playerAnimator.SetTrigger("playerJump");
             playerAnimator.SetBool("playerJumping", true);
             playerAnimator.SetBool("playerGrounded", false);
             rb.linearVelocity += Vector2.down * 25f * Time.deltaTime;
         }
 
-        if (state == StateHandler.State.Jumping && Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0)
+        if (state == StateHandler.State.Jumping && jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
         {
             playerAnimator.SetBool("playerJumping", false);
             playerAnimator.SetBool("playerFalling", false);
@@ -214,7 +234,13 @@ public class PillController : MonoBehaviour
 
     void OnEnable() => controls.Enable();
 
-    void OnDisable() => controls.Player.Disable();
+    void OnDisable()
+    {
+        if (isPlayer1)
+            player1Controls.Disable();
+        else
+            player2Controls.Disable();
+    }
 
     void OnDrawGizmosSelected()
     {
