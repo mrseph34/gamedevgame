@@ -81,6 +81,9 @@ public class Hitbox : MonoBehaviour
         var sh = col.GetComponent<StateHandler>();
         if (sh != null)
             sh.ReceiveHit(knockback, stunDuration, damage);
+            Animator animator = sh.GetComponent<Animator>();
+            animator.SetTrigger("playerHit");
+            
     }
 
     void OnDrawGizmosSelected()

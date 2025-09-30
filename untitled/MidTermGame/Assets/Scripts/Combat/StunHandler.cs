@@ -4,6 +4,7 @@ using UnityEngine;
 public class StunHandler : MonoBehaviour
 {
     StateHandler stateHandler;
+    private Animator animator;
     float stunTimer = 0f;
 
     public bool IsStunned => stunTimer > 0f;
@@ -11,6 +12,7 @@ public class StunHandler : MonoBehaviour
     void Awake()
     {
         stateHandler = GetComponent<StateHandler>();
+        animator = stateHandler.GetComponent<Animator>();
     }
 
     void Update()
@@ -21,6 +23,9 @@ public class StunHandler : MonoBehaviour
             if (stunTimer <= 0f)
             {
                 stunTimer = 0f;
+                // *** STUN ENDED - Do stuff here when character is no longer stunned ***
+                OnStunEnded();
+                
                 // Return to grounded or moving:
                 stateHandler.ChangeState(StateHandler.State.Grounded);
             }
@@ -31,7 +36,14 @@ public class StunHandler : MonoBehaviour
     // If already stunned, newest duration overwrites the old one
     public void ApplyStun(float duration)
     {
+        animator.SetBool("canAttack", false);
         stunTimer = duration;
         stateHandler.ChangeState(StateHandler.State.Stunned);
+    }
+
+    // Called when stun duration expires
+    void OnStunEnded()
+    {
+        animator.SetBool("canAttack", true);
     }
 }
