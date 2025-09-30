@@ -8,6 +8,8 @@ public class KnockbackHandler : MonoBehaviour
 
     public void ApplyKnockback(Vector2 force)
     {
-        rb.linearVelocity = force;
+        float randomMultiplier = Random.Range(0.8f, 1.5f);
+        Vector2 finalForce = force * randomMultiplier;
+        rb.linearVelocity = finalForce;
     }
 }
