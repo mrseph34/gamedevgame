@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Hitbox : MonoBehaviour
@@ -13,6 +14,7 @@ public class Hitbox : MonoBehaviour
 
     bool hasHitSomething;
     int damage;
+    bool debug = false;
 
     const int defaultDamage = 10;
 
@@ -79,11 +81,28 @@ public class Hitbox : MonoBehaviour
 
         // StateHandler: knockback, stun, AND damage
         var sh = col.GetComponent<StateHandler>();
-        if (sh != null)
-            sh.ReceiveHit(knockback, stunDuration, damage);
+        Animator plrAnimator = ownerCollider.GetComponent<Animator>();
+        if (sh != null && plrAnimator && plrAnimator.GetBool("canAttack"))
+        {
             Animator animator = sh.GetComponent<Animator>();
+
+            sh.ReceiveHit(knockback, stunDuration, damage);
             animator.SetTrigger("playerHit");
             
+            if (animator.GetBool("playerAttacking"))
+            {
+                animator.SetBool("canAttack", false);
+                animator.SetTrigger("attackExit");
+                animator.SetTrigger("heavyExit");
+                StartCoroutine(ReenableAttackAfterDelay(animator, 0.3f));
+            }
+        }
+    }
+    
+    private IEnumerator ReenableAttackAfterDelay(Animator anim, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        anim.SetBool("canAttack", true);
     }
 
     void OnDrawGizmosSelected()
