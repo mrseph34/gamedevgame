@@ -16,12 +16,11 @@ MonoBehaviour:
   maxHoldTime: 1.5
   windupDuration: 0.5
   attackTrigger: heavyTrigger
-  heavyNotifier: isHeavy
   heavyExitTrigger: heavyExit
-  easyMode: 1
+  easyMode: 0
   heavyCooldown: 0.5
-  minKnockbackForce: 10
-  maxKnockbackForce: 50
+  minKnockbackForce: 20
+  maxKnockbackForce: 70
   stunDuration: 1
   hitboxSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   hitboxColor: {r: 1, g: 0.5, b: 0, a: 0.5}

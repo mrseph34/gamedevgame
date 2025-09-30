@@ -563,9 +563,11 @@ MonoBehaviour:
   moveSpeed: 7
   jumpForce: 10
   stickForce: 10
-  heartMonitor: {fileID: 0}
+  heartMonitor: {fileID: 184819988}
   minSpeedMultiplier: 0.5
   maxSpeedMultiplier: 1.5
+  minJumpMultiplier: 0.5
+  maxJumpMultiplier: 1.5
   groundRayDistance: 1.2
   groundLayer:
     serializedVersion: 2
@@ -889,9 +891,11 @@ MonoBehaviour:
   moveSpeed: 7
   jumpForce: 10
   stickForce: 10
-  heartMonitor: {fileID: 0}
+  heartMonitor: {fileID: 347734167}
   minSpeedMultiplier: 0.5
   maxSpeedMultiplier: 1.5
+  minJumpMultiplier: 0.5
+  maxJumpMultiplier: 1.5
   groundRayDistance: 1.2
   groundLayer:
     serializedVersion: 2
