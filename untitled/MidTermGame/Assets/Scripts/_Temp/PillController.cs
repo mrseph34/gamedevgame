@@ -27,6 +27,13 @@ public class PillController : MonoBehaviour
     [Range(1f, 2f)]
     public float maxSpeedMultiplier = 1.5f;
 
+    [Tooltip("Minimum jump multiplier at minBPM (e.g., 0.5 = 50% speed)")]
+    [Range(0f, 1f)]
+    public float minJumpMultiplier = 0.5f;
+    [Tooltip("Maximum jump multiplier at maxBPM (e.g., 1.5 = 150% speed)")]
+    [Range(1f, 2f)]
+    public float maxJumpMultiplier = 1.5f;
+
     [Header("Ground Check")]
     public float groundRayDistance = 0.2f;
     public LayerMask groundLayer;
@@ -115,7 +122,11 @@ public class PillController : MonoBehaviour
 
         isGrounded = Physics2D.Raycast(transform.position, -transform.up, groundRayDistance, groundLayer).collider != null;
         playerAnimator.SetBool("playerGrounded", isGrounded);
-        
+
+        float bpmJmpMultiplier = GetBPMJumpMultiplier();
+        float localJumpForce = jumpForce * bpmJmpMultiplier;
+        Debug.Log(bpmJmpMultiplier);
+
         var state = stateHandler.CurrentState;
 
         // Jump input - use appropriate player's jump action
@@ -123,7 +134,7 @@ public class PillController : MonoBehaviour
 
         if (state == StateHandler.State.Grounded && isGrounded && jumpAction.WasPressedThisFrame())
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 1.8f);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, localJumpForce * 1.8f);
             stateHandler.ChangeState(StateHandler.State.Jumping);
         }
 
@@ -141,7 +152,7 @@ public class PillController : MonoBehaviour
             playerAnimator.SetBool("playerFalling", false);
             
             // ensure minimum jump height of 50% when releasing jump early
-            float minJumpVelocity = jumpForce * 1.8f * 0.5f;
+            float minJumpVelocity = localJumpForce * 1.8f * 0.5f;
             float newYVelocity = Mathf.Max(rb.linearVelocity.y * 0.3f, minJumpVelocity);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, newYVelocity);
             
@@ -272,6 +283,24 @@ public class PillController : MonoBehaviour
         float speedMultiplier = Mathf.Lerp(minSpeedMultiplier, maxSpeedMultiplier, normalizedBPM);
 
         return speedMultiplier;
+    }
+
+    private float GetBPMJumpMultiplier()
+    {
+        if (heartMonitor == null)
+            return 1f; // No modifier if no heart monitor
+
+        float currentBPM = heartMonitor.BPM;
+        float minBPM = heartMonitor.minBPM;
+        float maxBPM = heartMonitor.maxBPM;
+
+        // Calculate normalized BPM (0 to 1)
+        float normalizedBPM = Mathf.InverseLerp(minBPM, maxBPM, currentBPM);
+
+        // Map normalized BPM to jump multiplier range
+        float jumpMultiplier = Mathf.Lerp(minJumpMultiplier, maxJumpMultiplier, normalizedBPM);
+
+        return jumpMultiplier;
     }
     
     void Flip()

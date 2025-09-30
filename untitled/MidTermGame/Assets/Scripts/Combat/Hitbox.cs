@@ -94,7 +94,7 @@ public class Hitbox : MonoBehaviour
                 animator.SetBool("canAttack", false);
                 animator.SetTrigger("attackExit");
                 animator.SetTrigger("heavyExit");
-                StartCoroutine(ReenableAttackAfterDelay(animator, 0.3f));
+                StartCoroutine(ReenableAttackAfterDelay(animator, 0.1f));
             }
         }
     }
