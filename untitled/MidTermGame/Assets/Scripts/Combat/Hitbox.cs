@@ -84,17 +84,41 @@ public class Hitbox : MonoBehaviour
         Animator plrAnimator = ownerCollider.GetComponent<Animator>();
         if (sh != null && plrAnimator && plrAnimator.GetBool("canAttack"))
         {
-            Animator animator = sh.GetComponent<Animator>();
+            Animator targetAnimator = sh.GetComponent<Animator>();
 
-            sh.ReceiveHit(knockback, stunDuration, damage);
-            animator.SetTrigger("playerHit");
-            
-            if (animator.GetBool("playerAttacking"))
+            // Check if target is performing heavy attack and can tank a hit
+            if (targetAnimator != null && targetAnimator.GetBool("isHeavy"))
             {
-                animator.SetBool("canAttack", false);
-                animator.SetTrigger("attackExit");
-                animator.SetTrigger("heavyExit");
-                StartCoroutine(ReenableAttackAfterDelay(animator, 0.3f));
+                // Check if they have the heavyTank bool and if it's true
+                bool canTank = false;
+                foreach (AnimatorControllerParameter param in targetAnimator.parameters)
+                {
+                    if (param.name == "heavyTank" && param.type == AnimatorControllerParameterType.Bool)
+                    {
+                        canTank = targetAnimator.GetBool("heavyTank");
+                        break;
+                    }
+                }
+
+                if (canTank)
+                {
+                    // Tank the hit - set heavyTank to false and don't apply damage/knockback
+                    targetAnimator.SetBool("heavyTank", false);
+                    // Debug.Log($"{col.name} tanked a hit during heavy attack!");
+                    return; // Exit without applying hit effects
+                }
+            }
+
+            // Normal hit logic - apply damage, knockback, and stun
+            sh.ReceiveHit(knockback, stunDuration, damage);
+            targetAnimator.SetTrigger("playerHit");
+            
+            if (targetAnimator.GetBool("playerAttacking"))
+            {
+                targetAnimator.SetBool("canAttack", false);
+                targetAnimator.SetTrigger("attackExit");
+                targetAnimator.SetTrigger("heavyExit");
+                StartCoroutine(ReenableAttackAfterDelay(targetAnimator, 0.3f));
             }
         }
     }
