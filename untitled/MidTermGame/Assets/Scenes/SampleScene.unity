@@ -560,8 +560,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer1: 0
-  moveSpeed: 5
-  jumpForce: 6
+  moveSpeed: 7
+  jumpForce: 10
   stickForce: 10
   heartMonitor: {fileID: 0}
   minSpeedMultiplier: 0.5
@@ -574,8 +574,8 @@ MonoBehaviour:
   groundishLayer:
     serializedVersion: 2
     m_Bits: 0
-  combatHandlerDash: {fileID: 0}
-  combatHandlerAttack: {fileID: 0}
+  combatHandlerDash: {fileID: 184819990}
+  combatHandlerAttack: {fileID: 184819990}
 --- !u!50 &184819995
 Rigidbody2D:
   serializedVersion: 5
@@ -591,7 +591,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.5
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -685,7 +685,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2633684472559265683, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9811321, g: 0.35635456, b: 0.36223543, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -754,7 +754,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.5
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -848,7 +848,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 352832124819000501, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3443396, g: 0.5686579, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -886,8 +886,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer1: 1
-  moveSpeed: 5
-  jumpForce: 6
+  moveSpeed: 7
+  jumpForce: 10
   stickForce: 10
   heartMonitor: {fileID: 0}
   minSpeedMultiplier: 0.5
@@ -900,8 +900,8 @@ MonoBehaviour:
   groundishLayer:
     serializedVersion: 2
     m_Bits: 0
-  combatHandlerDash: {fileID: 0}
-  combatHandlerAttack: {fileID: 0}
+  combatHandlerDash: {fileID: 347734166}
+  combatHandlerAttack: {fileID: 347734166}
 --- !u!114 &347734163
 MonoBehaviour:
   m_ObjectHideFlags: 0
