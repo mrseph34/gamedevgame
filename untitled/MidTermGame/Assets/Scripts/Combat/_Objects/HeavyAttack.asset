@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbb4113dfc94e1dbcf46cdee40358c2, type: 3}
+  m_Name: HeavyAttack
+  m_EditorClassIdentifier: 
+  animationTrigger: attackStart
+  maxHoldTime: 1.5
+  windupDuration: 0.5
+  attackTrigger: heavyTrigger
+  heavyNotifier: isHeavy
+  heavyExitTrigger: heavyExit
+  easyMode: 1
+  heavyCooldown: 0.5
+  minKnockbackForce: 10
+  maxKnockbackForce: 50
+  stunDuration: 1
+  hitboxSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  hitboxColor: {r: 1, g: 0.5, b: 0, a: 0.5}
+  hbHorizontalSize: {x: 6, y: 12}
+  hbHorizontalOff: {x: 1.25, y: 0}
+  hbUpSize: {x: 12, y: 6}
+  hbUpOff: {x: 0, y: 2}
+  hbDownSize: {x: 12, y: 6}
+  hbDownOff: {x: 0, y: -2}
+  hbDiagSize: {x: 6, y: 12}
+  hbDiagOff: {x: 1.5, y: 1.5}
+  attackDelay: 0
+  targetTag: Player
+  maxRotationAngle: 30
+  upwardAngleThreshold: 10
+  rotationDuration: 0.5
