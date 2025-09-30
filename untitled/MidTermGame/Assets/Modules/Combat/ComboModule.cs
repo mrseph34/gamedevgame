@@ -14,9 +14,6 @@ public class ComboModule : AttackModule
     public string exitTriggerName = "attackExit";
     public bool easyMode = true;
     
-    [Header("Safety Settings")]
-    public float maxComboTimeout = 10f; // Safety timeout for entire combo sequence
-    
     [Header("Hitbox Graphics")]
     public Sprite hitboxSprite;
     public Color hitboxColor = new Color(1, 0, 0, 0.5f);
@@ -36,6 +33,11 @@ public class ComboModule : AttackModule
     public float knockbackForce = 5f;
     public float stunDuration = 0.5f;
     public string targetTag = "Player";
+
+    [Header("Rotation Settings")]
+    public float maxRotationAngle = 30f;
+    public float upwardAngleThreshold = 10f; // If attack is within this many degrees of straight up, don't rotate
+    public float rotationDurationMultiplier = 0.5f; // Rotate for x% of comboContinueWindow
     
     private int comboHandlerInt = 0;
     private bool canContinueCombo = false;
@@ -44,6 +46,9 @@ public class ComboModule : AttackModule
     private const float INPUT_GRACE_PERIOD = 0.1f;
     private int cooldownIndex = 0;
     private int activeCooldownIndex = 0;
+    private Quaternion originalRotation;
+    private bool isRotationLocked = false;
+    private Quaternion lockedRotation;
     
     private bool IsComboKeyPressed()
     {
@@ -64,6 +69,69 @@ public class ComboModule : AttackModule
     {
         canContinueCombo = canContinue;
     }
+
+    private Vector2 GetAttackDirection(CombatHandler ch)
+    {
+        Vector2 inputDir = new Vector2(
+            Input.GetAxisRaw("Horizontal"),
+            Input.GetAxisRaw("Vertical")
+        );
+
+        float face = ch.transform.localScale.x > 0 ? 1f : -1f;
+
+        // Check for up input - face forward (no horizontal component)
+        if (inputDir.y > 0.5f && Mathf.Abs(inputDir.x) < 0.5f)
+        {
+            return new Vector2(face, 0f); // Face the direction they're facing, no vertical tilt
+        }
+        
+        // Check for down input - bottom diagonal in facing direction
+        if (inputDir.y < -0.5f)
+        {
+            return new Vector2(face, -1f).normalized; // Bottom diagonal
+        }
+
+        if (inputDir.sqrMagnitude > 0.1f)
+            return inputDir.normalized;
+
+        // fallback → facing
+        return Vector2.right * face;
+    }
+
+    private void ApplyRotation(CombatHandler ch, Vector2 attackDir)
+    {
+        // Check if attacking nearly straight up
+        float angleFromUp = Vector2.Angle(attackDir, Vector2.up);
+        bool isNearVertical = angleFromUp <= upwardAngleThreshold;
+
+        // Don't rotate if nearly vertical
+        if (isNearVertical)
+        {
+            return;
+        }
+
+        bool facingLeft = ch.transform.localScale.x < 0;
+        
+        // If facing left, mirror the attack direction to right side for rotation calculation
+        Vector2 rotationDir = attackDir;
+        float angle;
+        
+        if (facingLeft)
+        {
+            rotationDir.x = -rotationDir.x; // Flip X to treat it as if facing right
+            angle = Mathf.Atan2(-rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+        }
+        else
+        {
+            angle = Mathf.Atan2(rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+        }
+
+        // Clamp the angle to maxRotationAngle
+        angle = Mathf.Clamp(angle, -maxRotationAngle, maxRotationAngle);
+        
+        ch.transform.rotation = Quaternion.Euler(0, 0, angle);
+        lockedRotation = ch.transform.rotation;
+    }
     
     protected override IEnumerator PerformAttack(CombatHandler ch)
     {
@@ -72,6 +140,8 @@ public class ComboModule : AttackModule
         inputBuffered = false;
         lastInputTime = -999f;
         ch.SetModuleCooldown(this, true);
+        originalRotation = ch.transform.rotation;
+        isRotationLocked = false;
         
         // Assign this combo instance a unique cooldown index
         int myCooldownIndex = ++cooldownIndex;
@@ -118,7 +188,7 @@ public class ComboModule : AttackModule
             for (int hit = 1; hit < maxCombo; hit++)
             {
                 // Check if entire combo has timed out
-                if (Time.time - comboStartTime > maxComboTimeout)
+                if (Time.time - comboStartTime > comboContinueWindow)
                 {
                     Debug.LogWarning("ComboModule: Entire combo sequence timed out");
                     break;
@@ -199,6 +269,9 @@ public class ComboModule : AttackModule
                 // If we got input, continue combo
                 if (gotInput)
                 {
+                    // Unlock rotation for the next hit
+                    isRotationLocked = false;
+                    
                     animator.SetTrigger(attackTriggerName);
                     comboHandlerInt++;
                     canContinueCombo = false;
@@ -218,6 +291,9 @@ public class ComboModule : AttackModule
             animator.SetTrigger(exitTriggerName);
             animator.SetInteger(comboIntName, 0);
             animator.SetBool("playerAttacking", false);
+            
+            // Restore rotation
+            ch.transform.rotation = originalRotation;
             
             // Combo cooldown before allowing another attack - ONLY if this is still the active combo
             if (activeCooldownIndex == myCooldownIndex)
@@ -250,6 +326,13 @@ public class ComboModule : AttackModule
         comboHandlerInt = 0;
         canContinueCombo = false;
         inputBuffered = false;
+        isRotationLocked = false;
+        
+        // Restore rotation
+        if (ch != null)
+        {
+            ch.transform.rotation = originalRotation;
+        }
         
         // Reset animator state
         if (animator != null)
@@ -271,6 +354,17 @@ public class ComboModule : AttackModule
     
     protected override IEnumerator PerformHitbox(CombatHandler ch)
     {
+        // Apply rotation immediately if not locked
+        if (!isRotationLocked)
+        {
+            Vector2 attackDir = GetAttackDirection(ch);
+            ApplyRotation(ch, attackDir);
+            isRotationLocked = true;
+            
+            // Start the lock duration timer
+            ch.StartCoroutine(RotationLockDuration(ch));
+        }
+        
         yield return new WaitForSeconds(attackDelay);
         
         Vector2 inDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -335,5 +429,25 @@ public class ComboModule : AttackModule
         hb.Setup(kb, stunDuration, targetTag, 0.1f, ch.SelfCollider, offset);
         
         Destroy(hbGO, hb.lifetime + 0.05f);
+    }
+
+    private IEnumerator RotationLockDuration(CombatHandler ch)
+    {
+        // Hold this rotation for the specified duration
+        float rotationDuration = comboContinueWindow * rotationDurationMultiplier;
+        float startTime = Time.time;
+        
+        while (Time.time - startTime < rotationDuration && isRotationLocked)
+        {
+            // Keep the rotation locked at lockedRotation
+            ch.transform.rotation = lockedRotation;
+            yield return null;
+        }
+        
+        // After duration, restore to original rotation (but stay locked until next hit unlocks it)
+        if (isRotationLocked)
+        {
+            ch.transform.rotation = originalRotation;
+        }
     }
 }

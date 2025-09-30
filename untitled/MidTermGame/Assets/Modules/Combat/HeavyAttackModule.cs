@@ -40,9 +40,17 @@ namespace Modules.Combat
         [Header("Timing & Effects")]
         public float attackDelay = 0.1f;
         public string targetTag = "Player";
+
+        [Header("Rotation Settings")]
+        public float maxRotationAngle = 30f;
+        public float upwardAngleThreshold = 10f;
+        public float rotationDuration = 0.5f; // How long to hold the rotation
     
         private bool isCharging = false;
         private float chargeTime = 0f;
+        private Quaternion originalRotation;
+        private Quaternion lockedRotation;
+        private bool isRotationActive = false;
     
         private bool IsHeavyKeyHeld(CombatHandler ch)
         {
@@ -52,6 +60,68 @@ namespace Modules.Combat
                 return inputHandler.IsAttackInputHeld(this);
             }
             return false;
+        }
+
+        private Vector2 GetAttackDirection(CombatHandler ch)
+        {
+            Vector2 inputDir = new Vector2(
+                Input.GetAxisRaw("Horizontal"),
+                Input.GetAxisRaw("Vertical")
+            );
+
+            float face = ch.transform.localScale.x > 0 ? 1f : -1f;
+
+            // Check for up input - face forward (no horizontal component)
+            if (inputDir.y > 0.5f && Mathf.Abs(inputDir.x) < 0.5f)
+            {
+                return new Vector2(face, 0f);
+            }
+            
+            // Check for down input - bottom diagonal in facing direction
+            if (inputDir.y < -0.5f)
+            {
+                return new Vector2(face, -1f).normalized;
+            }
+
+            if (inputDir.sqrMagnitude > 0.1f)
+                return inputDir.normalized;
+
+            // fallback → facing
+            return Vector2.right * face;
+        }
+
+        private void ApplyRotation(CombatHandler ch, Vector2 attackDir)
+        {
+            // Check if attacking nearly straight up
+            float angleFromUp = Vector2.Angle(attackDir, Vector2.up);
+            bool isNearVertical = angleFromUp <= upwardAngleThreshold;
+
+            // Don't rotate if nearly vertical
+            if (isNearVertical)
+            {
+                return;
+            }
+
+            bool facingLeft = ch.transform.localScale.x < 0;
+            
+            Vector2 rotationDir = attackDir;
+            float angle;
+            
+            if (facingLeft)
+            {
+                rotationDir.x = -rotationDir.x;
+                angle = Mathf.Atan2(-rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+            }
+            else
+            {
+                angle = Mathf.Atan2(rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
+            }
+
+            // Clamp the angle to maxRotationAngle
+            angle = Mathf.Clamp(angle, -maxRotationAngle, maxRotationAngle);
+            
+            ch.transform.rotation = Quaternion.Euler(0, 0, angle);
+            lockedRotation = ch.transform.rotation;
         }
     
         protected override IEnumerator PerformAttack(CombatHandler ch)
@@ -65,6 +135,8 @@ namespace Modules.Combat
         
             isCharging = false;
             chargeTime = 0f;
+            originalRotation = ch.transform.rotation;
+            isRotationActive = false;
         
             animator.SetTrigger(animationTrigger);
             animator.ResetTrigger(attackTrigger);
@@ -80,6 +152,9 @@ namespace Modules.Combat
             {
                 yield return ch.StartCoroutine(ExecuteHardMode(ch, animator));
             }
+
+            // Restore rotation at the end
+            ch.transform.rotation = originalRotation;
         }
     
         private IEnumerator ExecuteEasyMode(CombatHandler ch, Animator animator)
@@ -162,6 +237,17 @@ namespace Modules.Combat
     
         private IEnumerator CreateHitbox(CombatHandler ch)
         {
+            // Apply rotation at the start of hitbox creation
+            if (!isRotationActive)
+            {
+                Vector2 attackDir = GetAttackDirection(ch);
+                ApplyRotation(ch, attackDir);
+                isRotationActive = true;
+                
+                // Start the rotation hold duration
+                ch.StartCoroutine(RotationHoldDuration(ch));
+            }
+
             yield return new WaitForSeconds(attackDelay);
         
             float chargeRatio = chargeTime / maxHoldTime;
@@ -229,6 +315,24 @@ namespace Modules.Combat
             hb.Setup(kb, stunDuration, targetTag, 0.2f, ch.SelfCollider, offset);
         
             Destroy(hbGO, hb.lifetime + 0.05f);
+        }
+
+        private IEnumerator RotationHoldDuration(CombatHandler ch)
+        {
+            float startTime = Time.time;
+            
+            // Hold the rotation for the specified duration
+            while (Time.time - startTime < rotationDuration && isRotationActive)
+            {
+                ch.transform.rotation = lockedRotation;
+                yield return null;
+            }
+            
+            // Restore original rotation after duration
+            if (isRotationActive)
+            {
+                ch.transform.rotation = originalRotation;
+            }
         }
     }
 }
