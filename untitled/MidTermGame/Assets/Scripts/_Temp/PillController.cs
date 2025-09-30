@@ -5,6 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(StateHandler))]
 public class PillController : MonoBehaviour
 {
+    public bool isPlayer1 = true;
+    private InputSystem_Actions controls;
+    private InputSystem_Actions.Player1Actions player1Controls;
+    private InputSystem_Actions.Player2Actions player2Controls;
+    
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
@@ -25,12 +30,11 @@ public class PillController : MonoBehaviour
     [Header("Attack")]
     public CombatHandler combatHandlerAttack;
 
-    InputSystem_Actions controls;
-
     Rigidbody2D rb;
     StateHandler stateHandler;
     Vector2 surfaceNormal = Vector2.up;
-    bool isAttached = false;
+    Vector2 moveInput;
+    //bool isAttached = false;
     float horizontalInput;
     bool isGrounded;
     bool facingRight = true;
@@ -38,10 +42,28 @@ public class PillController : MonoBehaviour
 
     void Awake()
     {
+        controls = new InputSystem_Actions();
+
+        if (isPlayer1)
+        {
+            player1Controls = controls.Player1;
+            player1Controls.Enable();
+        }
+        else
+        {
+            player2Controls = controls.Player2;
+            player2Controls.Enable();
+        }
+
+        //playerControls.Jump.performed += ctx => DoJump();
+        //playerControls.Attack.performed += ctx => DoAttack();
+        //playerControls.Dash.performed += ctx => DoDash();
+
+
+
         combatHandlerAttack = GetComponent<CombatHandler>();
 
-        controls = new InputSystem_Actions();
-        
+
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -55,7 +77,9 @@ public class PillController : MonoBehaviour
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        //horizontalInput = Input.GetAxisRaw("Horizontal");
+        moveInput = (isPlayer1 ? player1Controls.Move.ReadValue<Vector2>() : player2Controls.Move.ReadValue<Vector2>());
+
 
         // 1) Ground/surface check
         isGrounded =
@@ -73,14 +97,28 @@ public class PillController : MonoBehaviour
 
         var state = stateHandler.CurrentState;
 
-        // 2) Jump input
-        if (state == StateHandler.State.Grounded && isGrounded && Input.GetButtonDown("Jump"))
+        // if (isPlayer1)
+        // { 
+        
+
+            // 2) Jump input
+            // if (state == StateHandler.State.Grounded && isGrounded && Input.GetButtonDown("Jump"))
+            // {
+            //     rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            //     stateHandler.ChangeState(StateHandler.State.Jumping);
+            // }
+            
+        var jumpAction = isPlayer1 ? player1Controls.Jump : player2Controls.Jump;
+
+        if (state == StateHandler.State.Grounded && isGrounded && jumpAction.WasPressedThisFrame())
         {
+            Debug.Log($"{(isPlayer1 ? "P1" : "P2")} Jump pressed: {jumpAction.WasPressedThisFrame()}");
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             stateHandler.ChangeState(StateHandler.State.Jumping);
         }
 
-        // 3) State transitions
+            // 3) State transitions
         if (state == StateHandler.State.Grounded)
         {
             // walked off a ledge?
@@ -100,23 +138,26 @@ public class PillController : MonoBehaviour
                 stateHandler.ChangeState(StateHandler.State.Grounded);
         }
 
-        // 4) Flip
-        if (horizontalInput > 0 && !facingRight)
-            Flip();
-        else if (horizontalInput < 0 && facingRight)
-            Flip();
+            // 4) Flip
+            if (moveInput.x > 0 && !facingRight)
+                Flip();
+            else if (moveInput.x < 0 && facingRight)
+                Flip();
 
-        bool playerInput = Mathf.Abs(horizontalInput) > 0f;
-        bool playerMoving = playerInput;
-        if (playerMoving)
-        {
-            playerAnimator.SetBool("playerMove", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("playerMove", false);
-            playerAnimator.SetBool("playerIdle", true);
-        }
+            bool playerInput = Mathf.Abs(moveInput.x) > 0f;
+            bool playerMoving = playerInput;
+            if (playerMoving)
+            {
+                playerAnimator.SetBool("playerMove", true);
+            }
+            else
+            {
+                playerAnimator.SetBool("playerMove", false);
+                playerAnimator.SetBool("playerIdle", true);
+            }
+        //}
+        
+        
     }
 
     void FixedUpdate()
@@ -135,9 +176,23 @@ public class PillController : MonoBehaviour
             && s != StateHandler.State.Parrying
         )
         {
-            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
         }
     }
+
+    // void DoAttack()
+    // {
+    //     if (combatHandlerAttack == null) return;
+    //     foreach (var atk in combatHandlerAttack.attacks)
+    //         atk.ExecuteAttack(combatHandlerAttack);
+    // }
+
+    // void DoDash()
+    // {
+    //     if (combatHandlerDash == null) return;
+    //     foreach (var atk in combatHandlerDash.attacks)
+    //         atk.ExecuteAttack(combatHandlerDash);
+    // }
     
     void Flip()
     {
@@ -149,7 +204,13 @@ public class PillController : MonoBehaviour
 
     void OnEnable() => controls.Enable();
 
-    void OnDisable() => controls.Player.Disable();
+    void OnDisable()
+    {
+        if (isPlayer1)
+            player1Controls.Disable();
+        else
+            player2Controls.Disable();
+    }
     
 
 

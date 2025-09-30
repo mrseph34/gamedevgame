@@ -137,6 +137,11 @@ GameObject:
   - component: {fileID: 179004592}
   - component: {fileID: 179004593}
   - component: {fileID: 179004594}
+  - component: {fileID: 179004595}
+  - component: {fileID: 179004596}
+  - component: {fileID: 179004597}
+  - component: {fileID: 179004599}
+  - component: {fileID: 179004598}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Player
@@ -157,7 +162,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 0.5
   m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -252,8 +257,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  m_Sprite: {fileID: -2633684472559265683, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
+  m_Color: {r: 0.9716981, g: 0.9579477, b: 0.9579477, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -285,7 +290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179004583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5662624311b04fa6af91fed397ce484, type: 3}
   m_Name: 
@@ -363,6 +368,113 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 026976176f1446ec97d2b7c1f3437cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &179004595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179004583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff8c1a8bf2f9420d9d26aafde4e8b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer1: 0
+  moveSpeed: 5
+  jumpForce: 6
+  stickForce: 10
+  groundRayDistance: 1.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  rayDistance: 0.4
+  groundishLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  combatHandlerDash: {fileID: 347734166}
+  combatHandlerAttack: {fileID: 347734166}
+--- !u!114 &179004596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179004583}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679aeba377725403ebde470f7965f533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer1: 0
+  moveSpeed: 5
+  jumpForce: 12
+  stickForce: 10
+  groundRayDistance: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rayDistance: 0.4
+  groundishLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  combatHandlerDash: {fileID: 0}
+  combatHandlerAttack: {fileID: 0}
+--- !u!114 &179004597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179004583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7758a435483b48d6ac629d07d41aeb70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatHandler: {fileID: 347734166}
+  inputActions:
+  - {fileID: 3356653558802840853, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  - {fileID: 3708668350079368670, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  - {fileID: -7251449171397651610, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  attackModules:
+  - {fileID: 11400000, guid: 2ee4df727208a404e9518afd876c33f9, type: 2}
+--- !u!114 &179004598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179004583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 723f06967c19468ba364ea77628239c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 179004599}
+  SelfCollider: {fileID: 0}
+--- !u!95 &179004599
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179004583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6d67a365fb11c4ef597a9576a4081ca2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &347734156
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +518,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0.5
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -537,6 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff8c1a8bf2f9420d9d26aafde4e8b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer1: 1
   moveSpeed: 5
   jumpForce: 6
   stickForce: 10
@@ -548,8 +661,8 @@ MonoBehaviour:
   groundishLayer:
     serializedVersion: 2
     m_Bits: 0
-  combatHandlerDash: {fileID: 0}
-  combatHandlerAttack: {fileID: 0}
+  combatHandlerDash: {fileID: 347734166}
+  combatHandlerAttack: {fileID: 347734166}
 --- !u!114 &347734163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,7 +894,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
