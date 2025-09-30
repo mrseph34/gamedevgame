@@ -458,22 +458,22 @@
                 },
                 {
                     "name": "",
-                    "id": "c06b58c8-15cd-4ea9-84fb-20058d77d57d",
-                    "path": "<HID::Core (Plus) Wired Controller>/button2",
+                    "id": "dfb92a9f-d32e-48fd-8853-06eeb3c1b0c8",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad;PS5",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Heavy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "dfb92a9f-d32e-48fd-8853-06eeb3c1b0c8",
-                    "path": "<Keyboard>/l",
+                    "id": "fd195ef2-5806-4a34-92ed-ebd4dfb27388",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Gamepad",
                     "action": "Heavy",
                     "isComposite": false,
                     "isPartOfComposite": false
