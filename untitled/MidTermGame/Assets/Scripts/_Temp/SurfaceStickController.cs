@@ -6,24 +6,24 @@ using System.Collections;
 public class SurfaceStickController : MonoBehaviour
 {
     [Header("Debug Mode")]
-    public bool debugMode = false; // Walk onto walls freely without knockback requirement
+    public bool debugMode = false;
     
     [Header("Knockback Threshold")]
-    public float minKnockbackSpeed = 8f; // Minimum speed to stick to surface
-    public float knockbackAngleRange = 45f; // Degrees from perpendicular to surface
+    public float minKnockbackSpeed = 8f;
+    public float knockbackAngleRange = 45f;
     
     [Header("Surface Detection")]
     public float surfaceCheckDistance = 0.3f;
     public LayerMask surfaceLayer;
     
     [Header("Adhesion Settings")]
-    public float maxAdhesionTime = 8f; // Seconds before falling off
-    public float adhesionDepletionRate = 1f; // Units per second
-    public float movementSpeedMultiplier = 0.75f; // Speed reduction on surfaces
-    public float ceilingSpeedMultiplier = 0.5f; // Even slower on ceiling
+    public float maxAdhesionTime = 8f;
+    public float adhesionDepletionRate = 1f;
+    public float movementSpeedMultiplier = 0.75f;
+    public float ceilingSpeedMultiplier = 0.5f;
     
     [Header("Surface Attack Costs")]
-    public float attackAdhesionCost = 1.5f; // Extra adhesion cost per attack
+    public float attackAdhesionCost = 1.5f;
     
     [Header("Drop/Slide Settings")]
     public float slideOffForce = 5f;
@@ -34,7 +34,6 @@ public class SurfaceStickController : MonoBehaviour
     public float ceilingDropChargeTime = 1f;
     public float ceilingDropForce = 15f;
     
-    // Internal state
     private Rigidbody2D rb;
     private PillController pillController;
     private StateHandler stateHandler;
@@ -47,8 +46,8 @@ public class SurfaceStickController : MonoBehaviour
     private float currentAdhesion = 0f;
     private bool canStick = true;
     
-    // Rotation tracking
     private Quaternion targetRotation = Quaternion.identity;
+    private Vector2 tangentDirection = Vector2.right; // Direction along surface
     
     public enum SurfaceType
     {
@@ -74,7 +73,6 @@ public class SurfaceStickController : MonoBehaviour
     
     void Update()
     {
-        // Check if player is dashing or in other states that should break stick
         if (isStuckToSurface)
         {
             if (ShouldDetachFromState())
@@ -83,7 +81,6 @@ public class SurfaceStickController : MonoBehaviour
                 return;
             }
             
-            HandleSurfaceMovement();
             DepleteAdhesion();
             CheckForDropInput();
             CheckSurfaceAttacks();
@@ -93,29 +90,26 @@ public class SurfaceStickController : MonoBehaviour
             CheckForSurfaceImpact();
         }
         
-        // Debug visualization
         if (debugMode && isStuckToSurface)
         {
             Debug.DrawRay(transform.position, surfaceNormal * 2f, Color.green);
+            Debug.DrawRay(transform.position, tangentDirection * 1.5f, Color.red);
         }
     }
     
     bool ShouldDetachFromState()
     {
-        // Detach if entering states that conflict with sticking
         var state = stateHandler.CurrentState;
         
         if (state == StateHandler.State.Dashing ||
             state == StateHandler.State.Sliding ||
             state == StateHandler.State.Stunned ||
             state == StateHandler.State.GettingHit ||
-            animator.GetBool("playerAttacking")
-            )
+            animator.GetBool("playerAttacking"))
         {
             return true;
         }
         
-        // Also detach if hit while on surface
         if (animator.GetBool("playerHit"))
         {
             return true;
@@ -128,38 +122,33 @@ public class SurfaceStickController : MonoBehaviour
     {
         if (isStuckToSurface)
         {
+            HandleSurfaceMovement();
             ApplySurfacePhysics();
         }
         else
         {
-            // Always force reset rotation when not stuck
             ForceResetRotation();
         }
     }
     
     void ForceResetRotation()
     {
-        // Completely reset to zero rotation
         transform.rotation = Quaternion.identity;
         transform.eulerAngles = Vector3.zero;
     }
     
     void CheckForSurfaceImpact()
     {
-        // Skip if already stuck or can't stick
         if (isStuckToSurface || !canStick) return;
         
-        // In debug mode, allow sticking at any speed
         float currentSpeed = rb.linearVelocity.magnitude;
         bool speedThresholdMet = debugMode || currentSpeed >= minKnockbackSpeed;
         
         if (!speedThresholdMet) return;
         
-        // Check if player was hit (knocked back)
         bool wasHit = animator != null && animator.GetBool("playerHit");
         if (!debugMode && !wasHit) return;
         
-        // Cast rays in all directions to find nearby surfaces
         RaycastHit2D[] hits = new RaycastHit2D[4];
         hits[0] = Physics2D.Raycast(transform.position, Vector2.right, surfaceCheckDistance, surfaceLayer);
         hits[1] = Physics2D.Raycast(transform.position, Vector2.left, surfaceCheckDistance, surfaceLayer);
@@ -173,7 +162,6 @@ public class SurfaceStickController : MonoBehaviour
                 Vector2 velocityDir = rb.linearVelocity.normalized;
                 float angle = Vector2.Angle(-velocityDir, hit.normal);
                 
-                // Check if velocity is roughly perpendicular to surface
                 bool angleValid = debugMode || angle <= knockbackAngleRange;
                 
                 if (angleValid)
@@ -192,7 +180,6 @@ public class SurfaceStickController : MonoBehaviour
         surfaceNormal = normal;
         currentAdhesion = maxAdhesionTime;
         
-        // Determine surface type
         float angle = Vector2.SignedAngle(Vector2.up, normal);
         
         if (Mathf.Abs(angle) < 45f)
@@ -204,26 +191,23 @@ public class SurfaceStickController : MonoBehaviour
         else
             currentSurface = SurfaceType.RightWall;
         
-        // Calculate target rotation to align "down" with surface normal
+        // Calculate tangent direction (perpendicular to normal, pointing "right" along surface)
+        tangentDirection = new Vector2(-normal.y, normal.x);
+        
+        // Rotate player to align with surface
         float rotationAngle = Mathf.Atan2(-normal.x, normal.y) * Mathf.Rad2Deg;
         targetRotation = Quaternion.Euler(0, 0, rotationAngle);
         transform.rotation = targetRotation;
         
-        // Stop velocity and change state
         rb.linearVelocity = Vector2.zero;
         stateHandler.ChangeState(StateHandler.State.Grounded);
         
-        // Set animator to grounded on surface
         animator.SetBool("playerGrounded", true);
         animator.SetBool("playerJumping", false);
         animator.SetBool("playerFalling", false);
         animator.SetBool("playerHit", false);
         
-        // Disable standard controller while stuck
-        if (pillController != null)
-            pillController.enabled = false;
-        
-        Debug.Log($"Stuck to {currentSurface} surface! Adhesion: {currentAdhesion:F1}s");
+        Debug.Log($"Stuck to {currentSurface} surface! Tangent: {tangentDirection}");
     }
     
     void HandleSurfaceMovement()
@@ -231,35 +215,19 @@ public class SurfaceStickController : MonoBehaviour
         Vector2 moveInput = pillController.GetInputAction("Move").ReadValue<Vector2>();
         float horizontalInput = moveInput.x;
         
-        // Calculate movement direction along the surface
-        Vector2 moveDir = Vector2.zero;
-        float speedMult = movementSpeedMultiplier;
+        // Get the current facing direction from scale
+        float facingDir = transform.localScale.x > 0 ? 1f : -1f;
         
-        switch (currentSurface)
-        {
-            case SurfaceType.Floor:
-                moveDir = Vector2.right * horizontalInput;
-                break;
-                
-            case SurfaceType.Ceiling:
-                moveDir = Vector2.right * horizontalInput;
-                speedMult = ceilingSpeedMultiplier;
-                break;
-                
-            case SurfaceType.LeftWall:
-                moveDir = Vector2.up * horizontalInput;
-                break;
-                
-            case SurfaceType.RightWall:
-                moveDir = Vector2.down * horizontalInput;
-                break;
-        }
+        // Move along tangent in the direction the player is facing
+        Vector2 moveVelocity = tangentDirection * horizontalInput * facingDir * pillController.moveSpeed;
         
-        // Apply movement in FixedUpdate via velocity
-        float moveSpeed = pillController.moveSpeed * speedMult;
-        rb.linearVelocity = moveDir * moveSpeed;
+        float speedMult = (currentSurface == SurfaceType.Ceiling) ? ceilingSpeedMultiplier : movementSpeedMultiplier;
+        moveVelocity *= speedMult;
         
-        // Handle flipping
+        // Set velocity directly - no forces, just pure tangent movement
+        rb.linearVelocity = moveVelocity;
+        
+        // Handle flipping based on input direction
         if (horizontalInput != 0)
         {
             bool shouldFaceRight = horizontalInput > 0;
@@ -273,7 +241,6 @@ public class SurfaceStickController : MonoBehaviour
             }
         }
         
-        // Update animator
         bool isMoving = Mathf.Abs(horizontalInput) > 0.1f;
         animator.SetBool("playerMove", isMoving);
         animator.SetBool("playerIdle", !isMoving);
@@ -281,14 +248,13 @@ public class SurfaceStickController : MonoBehaviour
     
     void ApplySurfacePhysics()
     {
-        // Keep rotation locked to surface
+        // Lock rotation to surface
         transform.rotation = targetRotation;
         
-        // Disable gravity while stuck
+        // Disable gravity
         rb.gravityScale = 0f;
         
-        // Apply slight force toward surface to maintain contact
-        rb.AddForce(-surfaceNormal * 5f, ForceMode2D.Force);
+        // NO FORCES - we handle movement entirely through velocity in HandleSurfaceMovement
     }
     
     void DepleteAdhesion()
@@ -297,16 +263,17 @@ public class SurfaceStickController : MonoBehaviour
         
         if (currentAdhesion <= 0f)
         {
-            DetachFromSurface(true); // Stunned on failure
+            DetachFromSurface(true);
         }
     }
     
     void CheckForDropInput()
     {
-        Vector2 moveInput = pillController.GetInputAction("Move").ReadValue<Vector2>();
-        bool slideInput = moveInput.y < -0.5f && pillController.GetInputAction("Attack").WasPressedThisFrame();
+        Vector2 verticalInput = pillController.GetInputAction("Move").ReadValue<Vector2>();
+        bool attackPressed = pillController.GetInputAction("Attack").WasPressedThisFrame();
+        bool slideInput = verticalInput.y < -0.5f && attackPressed;
         bool jumpInput = pillController.GetInputAction("Jump").WasPressedThisFrame();
-    
+        
         if (slideInput)
         {
             SlideOffSurface();
@@ -321,7 +288,6 @@ public class SurfaceStickController : MonoBehaviour
     {
         if (pillController.GetInputAction("Attack").WasPressedThisFrame())
         {
-            // Cost adhesion for attacking
             currentAdhesion -= attackAdhesionCost;
             
             switch (currentSurface)
@@ -341,13 +307,6 @@ public class SurfaceStickController : MonoBehaviour
     void PerformWallSlam()
     {
         Debug.Log("Wall Slam Attack!");
-        
-        // Create a downward shockwave
-        Vector2 slamDirection = -transform.up; // Downward relative to surface orientation
-        
-        // TODO: Create hitbox/shockwave that knocks opponents away
-        // This would integrate with your existing combat system
-        
         animator.SetTrigger("attackTrigger");
     }
     
@@ -355,18 +314,19 @@ public class SurfaceStickController : MonoBehaviour
     {
         Debug.Log("Charging Ceiling Drop...");
         
+        var attackAction = pillController.GetInputAction("Attack");
         float chargeTime = 0f;
-        while (chargeTime < ceilingDropChargeTime && Input.GetButton("Fire1"))
+        
+        while (chargeTime < ceilingDropChargeTime && attackAction.IsPressed())
         {
             chargeTime += Time.deltaTime;
             yield return null;
         }
         
-        if (chargeTime >= ceilingDropChargeTime * 0.3f) // Minimum charge
+        if (chargeTime >= ceilingDropChargeTime * 0.3f)
         {
             Debug.Log("Ceiling Drop!");
             
-            // Detach and drop with force
             Vector2 dropDir = -surfaceNormal;
             DetachFromSurface(false);
             ForceResetRotation();
@@ -380,21 +340,9 @@ public class SurfaceStickController : MonoBehaviour
     {
         Debug.Log("Sliding off surface!");
         
-        Vector2 slideDir = Vector2.zero;
-        
-        // Slide back to floor
-        switch (currentSurface)
-        {
-            case SurfaceType.LeftWall:
-                slideDir = Vector2.right + Vector2.down;
-                break;
-            case SurfaceType.RightWall:
-                slideDir = Vector2.left + Vector2.down;
-                break;
-            case SurfaceType.Ceiling:
-                slideDir = Vector2.down;
-                break;
-        }
+        // Slide in current facing direction + away from surface
+        float facingDir = transform.localScale.x > 0 ? 1f : -1f;
+        Vector2 slideDir = tangentDirection * facingDir + surfaceNormal * 0.3f;
         
         DetachFromSurface(false);
         ForceResetRotation();
@@ -405,7 +353,6 @@ public class SurfaceStickController : MonoBehaviour
     {
         Debug.Log("Jumping off surface!");
         
-        // Jump in the direction of the surface normal
         Vector2 jumpDir = surfaceNormal;
         
         DetachFromSurface(false);
@@ -424,17 +371,10 @@ public class SurfaceStickController : MonoBehaviour
         animator.SetBool("isStuck", isStuckToSurface);
         currentSurface = SurfaceType.None;
         
-        // FORCE reset rotation completely
         ForceResetRotation();
         
-        // Re-enable gravity
         rb.gravityScale = 1f;
         
-        // Re-enable standard controller
-        if (pillController != null)
-            pillController.enabled = true;
-        
-        // Update animator state
         animator.SetBool("playerGrounded", false);
         
         if (stunned)
@@ -444,7 +384,6 @@ public class SurfaceStickController : MonoBehaviour
         }
         else
         {
-            // If not stunned, set to falling state
             if (stateHandler.CurrentState != StateHandler.State.Dashing && 
                 stateHandler.CurrentState != StateHandler.State.Jumping)
             {
@@ -453,7 +392,6 @@ public class SurfaceStickController : MonoBehaviour
             }
         }
         
-        // Brief cooldown before can stick again
         StartCoroutine(StickCooldown(0.5f));
     }
     
@@ -479,11 +417,12 @@ public class SurfaceStickController : MonoBehaviour
     {
         if (!isStuckToSurface) return;
         
-        // Draw surface normal
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, surfaceNormal * 2f);
         
-        // Draw adhesion bar
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, tangentDirection * 1.5f);
+        
         Gizmos.color = Color.Lerp(Color.red, Color.green, AdhesionPercent);
         Vector3 barStart = transform.position + Vector3.up * 2f;
         Vector3 barEnd = barStart + Vector3.right * (AdhesionPercent * 2f);
