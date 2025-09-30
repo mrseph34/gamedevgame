@@ -57,6 +57,9 @@ namespace Modules.Combat
             float angleFromUp = Vector2.Angle(dashDir, Vector2.up);
             bool isNearVertical = angleFromUp <= upwardAngleThreshold;
 
+            bool facingLeft = ch.transform.localScale.x < 0;
+            Quaternion targetRotation = originalRotation; // default for vertical dash
+
             if (isNearVertical)
             {
                 animator.SetTrigger("playerJump");
@@ -65,23 +68,20 @@ namespace Modules.Combat
             else
             {
                 animator.SetBool("isDashing", true);
-                // Only rotate if doing a regular dash (not a jump)
-                
-                bool facingLeft = ch.transform.localScale.x < 0;
-                
-                // If facing left, mirror the dash direction to right side for rotation calculation
+    
+                // Calculate target rotation for non-jump dashes
                 Vector2 rotationDir = dashDir;
                 float angle;
                 if (facingLeft)
                 {
-                    rotationDir.x = -rotationDir.x; // Flip X to treat it as if facing right
+                    rotationDir.x = -rotationDir.x;
                     angle = Mathf.Atan2(-rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
                 }
                 else {
                     angle = Mathf.Atan2(rotationDir.y, rotationDir.x) * Mathf.Rad2Deg;
                 }
-                
-                ch.transform.rotation = Quaternion.Euler(0, 0, angle);
+    
+                targetRotation = Quaternion.Euler(0, 0, angle);
             }
 
             ch.StateHandler.ChangeState(StateHandler.State.Dashing);
@@ -105,6 +105,13 @@ namespace Modules.Combat
                     newVel.y = cachedRb.linearVelocity.y;
 
                 cachedRb.linearVelocity = newVel;
+    
+                // Keep applying rotation during dash (only for non-vertical dashes)
+                if (!isNearVertical)
+                {
+                    ch.transform.rotation = targetRotation;
+                }
+    
                 yield return null;
             }
 

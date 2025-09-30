@@ -35,6 +35,10 @@ public class PillController : MonoBehaviour
     bool isGrounded;
     bool facingRight = true;
     private Animator playerAnimator;
+    
+    // Store the original scale to maintain consistent flipping
+    private Vector3 originalScale;
+    private float baseScaleX;
 
     void Awake()
     {
@@ -50,7 +54,20 @@ public class PillController : MonoBehaviour
 
         playerAnimator = GetComponent<Animator>();
 
-
+        PhysicsMaterial2D noFriction = new PhysicsMaterial2D();
+        noFriction.friction = 0f;
+        noFriction.bounciness = 0f;
+        rb.sharedMaterial = noFriction;
+        
+        // Store the original scale values
+        originalScale = transform.localScale;
+        baseScaleX = Mathf.Abs(originalScale.x);
+        
+        // Ensure we start facing right with positive scale
+        if (originalScale.x < 0)
+        {
+            facingRight = false;
+        }
     }
 
     void Update()
@@ -178,9 +195,21 @@ public class PillController : MonoBehaviour
     void Flip()
     {
         facingRight = !facingRight;
-        var ls = transform.localScale;
-        ls.x *= -1;
-        transform.localScale = ls;
+        
+        // Use the base scale values and apply direction
+        Vector3 newScale = originalScale;
+        newScale.x = facingRight ? baseScaleX : -baseScaleX;
+        transform.localScale = newScale;
+    }
+    
+    // Call this from SurfaceStickController when detaching to ensure scale is correct
+    public void ResetScale()
+    {
+        Vector3 currentScale = transform.localScale;
+        currentScale.y = Mathf.Abs(originalScale.y);
+        currentScale.z = Mathf.Abs(originalScale.z);
+        currentScale.x = facingRight ? baseScaleX : -baseScaleX;
+        transform.localScale = currentScale;
     }
 
     void OnEnable() => controls.Enable();

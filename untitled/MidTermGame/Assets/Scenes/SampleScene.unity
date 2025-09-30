@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 347734167}
   - component: {fileID: 347734171}
   - component: {fileID: 347734170}
+  - component: {fileID: 347734172}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -676,6 +677,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &347734172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347734156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e249f2e3b74ff58c5a00146675920e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugMode: 0
+  minKnockbackSpeed: 8
+  knockbackAngleRange: 45
+  surfaceCheckDistance: 1
+  surfaceLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  maxAdhesionTime: 8
+  adhesionDepletionRate: 1
+  movementSpeedMultiplier: 0.75
+  ceilingSpeedMultiplier: 0.5
+  attackAdhesionCost: 1.5
+  slideOffForce: 5
+  stunDurationOnAdhesionFail: 0.5
+  wallSlamForce: 10
+  ceilingDropChargeTime: 1
+  ceilingDropForce: 15
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
