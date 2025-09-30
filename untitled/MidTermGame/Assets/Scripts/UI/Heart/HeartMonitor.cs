@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PulseHandler))]
 public class HeartMonitor : MonoBehaviour
@@ -121,7 +122,22 @@ public class HeartMonitor : MonoBehaviour
         if (heartText != null)
             heartText.text = Mathf.RoundToInt(bpm).ToString();
         // OnBeat coroutine picks up bpm changes automatically
+
+        //restart when bpm = 0
+        if (bpm <= 0f)
+        {
+            Debug.Log("BPM reached 0! Restarting scene...");
+            StartCoroutine(RestartSceneAfterDelay(0.5f)); // optional delay
+        }
     }
+
+    private IEnumerator RestartSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
+    }
+
 
     public void StartBeating()
     {
@@ -142,6 +158,9 @@ public class HeartMonitor : MonoBehaviour
     {
         while (true)
         {
+            if (bpm <= 0f)
+                yield break;
+
             float interval = 60f / bpm;
             yield return new WaitForSeconds(interval);
             OnBeat?.Invoke();
@@ -160,7 +179,8 @@ public class HeartMonitor : MonoBehaviour
     {
         while (!Mathf.Approximately(bpm, target))
         {
-            bpm = Mathf.MoveTowards(bpm, target, rate * Time.deltaTime);
+            float tempBPM = Mathf.MoveTowards(bpm, target, rate * Time.deltaTime);
+            SetBPM(tempBPM);
             heartText.text = Mathf.RoundToInt(bpm).ToString();
             yield return null;
         }
