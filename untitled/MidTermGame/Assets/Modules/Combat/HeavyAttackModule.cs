@@ -62,12 +62,30 @@ namespace Modules.Combat
             return false;
         }
 
+        private Vector2 GetPlayerMoveInput(CombatHandler ch)
+        {
+            // Get the PillController to access the correct player's input
+            PillController pillController = ch.GetComponent<PillController>();
+            if (pillController == null)
+            {
+                Debug.LogWarning("No PillController found, falling back to default input");
+                return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            }
+            
+            // Get the Move input action for this specific player
+            var moveAction = pillController.GetInputAction("Move");
+            if (moveAction != null)
+            {
+                return moveAction.ReadValue<Vector2>();
+            }
+            
+            // Fallback
+            return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
         private Vector2 GetAttackDirection(CombatHandler ch)
         {
-            Vector2 inputDir = new Vector2(
-                Input.GetAxisRaw("Horizontal"),
-                Input.GetAxisRaw("Vertical")
-            );
+            Vector2 inputDir = GetPlayerMoveInput(ch);
 
             float face = ch.transform.localScale.x > 0 ? 1f : -1f;
 
@@ -253,7 +271,7 @@ namespace Modules.Combat
             float chargeRatio = chargeTime / maxHoldTime;
             float knockbackForce = Mathf.Lerp(minKnockbackForce, maxKnockbackForce, chargeRatio);
         
-            Vector2 inDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            Vector2 inDir = GetPlayerMoveInput(ch);
         
             Vector2 size, offset;
             bool diag = false;
