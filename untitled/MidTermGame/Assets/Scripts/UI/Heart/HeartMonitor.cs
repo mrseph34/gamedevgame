@@ -131,6 +131,7 @@ public class HeartMonitor : MonoBehaviour
         if (bpm <= 0f)
         {
             Debug.Log("BPM reached 0! Restarting scene...");
+            playerAnimator.SetTrigger("playerDeath");
             StartCoroutine(RestartSceneAfterDelay()); // optional delay
         }
     }
