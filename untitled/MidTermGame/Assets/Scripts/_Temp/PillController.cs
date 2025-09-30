@@ -159,7 +159,7 @@ public class PillController : MonoBehaviour
             stateHandler.ChangeState(StateHandler.State.Falling);
         }
 
-        if (state == StateHandler.State.Falling)
+        if (state == StateHandler.State.Falling || playerAnimator.GetBool("playerFalling"))
         {
             playerAnimator.SetBool("playerFalling", true);
             playerAnimator.SetBool("playerGrounded", false);
@@ -244,6 +244,16 @@ public class PillController : MonoBehaviour
             if (rb.linearVelocity.y < 0)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.9f);
+            }
+        }
+        
+        // detect ceiling collision and cancel upward velocity
+        if (rb.linearVelocity.y > 0)
+        {
+            RaycastHit2D ceilingHit = Physics2D.Raycast(transform.position, transform.up, groundRayDistance, groundLayer);
+            if (ceilingHit.collider != null)
+            {
+                playerAnimator.SetBool("playerFalling", true);
             }
         }
     }
