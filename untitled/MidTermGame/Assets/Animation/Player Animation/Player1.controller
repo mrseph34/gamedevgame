@@ -1090,6 +1090,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: playerAttacking
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isDead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7369641439268756505}
   m_Solo: 0
@@ -1356,7 +1359,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: attackClip
     m_Type: 3
@@ -1395,6 +1398,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: isStuck
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: isDead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -2257,7 +2266,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -140, y: 280, z: 0}
+  m_AnyStatePosition: {x: -140, y: 290, z: 0}
   m_EntryPosition: {x: -20, y: 10, z: 0}
   m_ExitPosition: {x: 760, y: -280, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -2492,7 +2501,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: playerDeath
+    m_ConditionEvent: isDead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1865075641609868439}
