@@ -51,13 +51,21 @@ public class ComboModule : AttackModule
     private bool isRotationLocked = false;
     private Quaternion lockedRotation;
     
-    private bool IsComboKeyPressed()
+    private bool IsComboKeyPressed(CombatHandler ch)
     {
-        CombatInputHandler inputHandler = FindObjectOfType<CombatInputHandler>();
+        // Get the input handler from the same GameObject or its children
+        CombatInputHandler inputHandler = ch.GetComponent<CombatInputHandler>();
+        if (inputHandler == null)
+        {
+            inputHandler = ch.GetComponentInChildren<CombatInputHandler>();
+        }
+    
         if (inputHandler != null)
         {
             return inputHandler.IsAttackInputPressed(this);
         }
+    
+        Debug.LogWarning($"No CombatInputHandler found for {ch.gameObject.name}");
         return false;
     }
     
@@ -210,7 +218,7 @@ public class ComboModule : AttackModule
                             break;
                         }
                         
-                        if (IsComboKeyPressed() && CanAcceptInput())
+                        if (IsComboKeyPressed(ch) && CanAcceptInput())
                         {
                             inputBuffered = true;
                         }
@@ -229,7 +237,7 @@ public class ComboModule : AttackModule
                             break;
                         }
                         
-                        if (IsComboKeyPressed() && CanAcceptInput())
+                        if (IsComboKeyPressed(ch) && CanAcceptInput())
                         {
                             comboFailed = true;
                             break;
@@ -248,7 +256,7 @@ public class ComboModule : AttackModule
                 
                 if (!gotInput && CanAcceptInput())
                 {
-                    gotInput = IsComboKeyPressed();
+                    gotInput = IsComboKeyPressed(ch);
                 }
                 
                 // Wait for input within the window if we don't have one yet
@@ -257,7 +265,7 @@ public class ComboModule : AttackModule
                     float timer = 0f;
                     while (timer < (comboContinueWindow - elapsedTime))
                     {
-                        if (CanAcceptInput() && IsComboKeyPressed())
+                        if (CanAcceptInput() && IsComboKeyPressed(ch))
                         {
                             gotInput = true;
                             break;

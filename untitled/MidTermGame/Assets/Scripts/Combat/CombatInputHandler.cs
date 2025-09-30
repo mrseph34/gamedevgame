@@ -10,6 +10,29 @@ public class CombatInputHandler : MonoBehaviour
     public InputActionReference[] inputActions;
     public AttackModule[] attackModules;
     
+    // Store cloned versions of the attack modules
+    private AttackModule[] clonedAttackModules;
+    
+    private void Awake()
+    {
+        // Create clones of all attack modules to prevent shared state between players
+        if (attackModules != null && attackModules.Length > 0)
+        {
+            clonedAttackModules = new AttackModule[attackModules.Length];
+            
+            for (int i = 0; i < attackModules.Length; i++)
+            {
+                if (attackModules[i] != null)
+                {
+                    // Use Instantiate to create a clone of the ScriptableObject
+                    clonedAttackModules[i] = Instantiate(attackModules[i]);
+                }
+            }
+            
+            Debug.Log($"[{gameObject.name}] Cloned {clonedAttackModules.Length} attack modules");
+        }
+    }
+    
     private void OnEnable()
     {
         // Enable all input actions
@@ -30,18 +53,33 @@ public class CombatInputHandler : MonoBehaviour
         }
     }
     
+    private void OnDestroy()
+    {
+        // Clean up cloned ScriptableObjects to prevent memory leaks
+        if (clonedAttackModules != null)
+        {
+            foreach (var module in clonedAttackModules)
+            {
+                if (module != null)
+                {
+                    Destroy(module);
+                }
+            }
+        }
+    }
+    
     private void Update()
     {
-        // Make sure both arrays have the same length
-        int maxIndex = Mathf.Min(inputActions.Length, attackModules.Length);
+        // Use cloned modules instead of original modules
+        int maxIndex = Mathf.Min(inputActions.Length, clonedAttackModules.Length);
         
         for (int i = 0; i < maxIndex; i++)
         {
             if (inputActions[i] != null && 
                 inputActions[i].action.WasPressedThisFrame() && 
-                attackModules[i] != null)
+                clonedAttackModules[i] != null)
             {
-                combatHandler.StartAttack(attackModules[i]);
+                combatHandler.StartAttack(clonedAttackModules[i]);
             }
         }
     }
@@ -49,9 +87,10 @@ public class CombatInputHandler : MonoBehaviour
     // Helper method to check if a specific attack module's input was pressed this frame
     public bool IsAttackInputPressed(AttackModule attackModule)
     {
-        for (int i = 0; i < attackModules.Length; i++)
+        // Check against cloned modules
+        for (int i = 0; i < clonedAttackModules.Length; i++)
         {
-            if (attackModules[i] == attackModule && inputActions[i] != null)
+            if (clonedAttackModules[i] == attackModule && inputActions[i] != null)
             {
                 return inputActions[i].action.WasPressedThisFrame();
             }
@@ -62,13 +101,24 @@ public class CombatInputHandler : MonoBehaviour
     // Helper method to check if a specific attack module's input is being held
     public bool IsAttackInputHeld(AttackModule attackModule)
     {
-        for (int i = 0; i < attackModules.Length; i++)
+        // Check against cloned modules
+        for (int i = 0; i < clonedAttackModules.Length; i++)
         {
-            if (attackModules[i] == attackModule && inputActions[i] != null)
+            if (clonedAttackModules[i] == attackModule && inputActions[i] != null)
             {
                 return inputActions[i].action.IsPressed();
             }
         }
         return false;
+    }
+    
+    // Get a specific cloned attack module by index?
+    public AttackModule GetClonedAttackModule(int index)
+    {
+        if (clonedAttackModules != null && index >= 0 && index < clonedAttackModules.Length)
+        {
+            return clonedAttackModules[index];
+        }
+        return null;
     }
 }

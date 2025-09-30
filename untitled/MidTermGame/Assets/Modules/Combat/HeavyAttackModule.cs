@@ -54,7 +54,7 @@ namespace Modules.Combat
     
         private bool IsHeavyKeyHeld(CombatHandler ch)
         {
-            CombatInputHandler inputHandler = FindObjectOfType<CombatInputHandler>();
+            CombatInputHandler inputHandler = ch.GetComponent<CombatInputHandler>();
             if (inputHandler != null)
             {
                 return inputHandler.IsAttackInputHeld(this);
