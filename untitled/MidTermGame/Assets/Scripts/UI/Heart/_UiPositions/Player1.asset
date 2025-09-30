@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anchorMin: {x: 0.5, y: 0.5}
   anchorMax: {x: 0.5, y: 0.5}
-  anchoredPosition: {x: -220, y: 100}
+  anchoredPosition: {x: -500, y: 200}
