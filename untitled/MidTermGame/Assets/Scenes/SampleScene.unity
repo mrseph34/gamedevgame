@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db8ab4bd520c4c099f349ff3eb971dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positionConfig: {fileID: 11400000, guid: 75955f86ba01c40f09b84eff12c6200c, type: 2}
+  positionConfig: {fileID: 11400000, guid: 04f5434fdf5674d6486391819974d9f9, type: 2}
   heartSprite: {fileID: 49066913392313123, guid: 2329a5fb7917142ecb0bc9264b73a147, type: 3}
   initialSize: {x: 100, y: 100}
   minBPM: 0
