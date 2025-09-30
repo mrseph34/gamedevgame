@@ -145,19 +145,21 @@ namespace Modules.Combat
         /// otherwise dash in the facing‐direction.
         private Vector2 GetDashDirection(CombatHandler ch)
         {
-            Vector2 inputDir = new Vector2(
-                Input.GetAxisRaw("Horizontal"),
-                Input.GetAxisRaw("Vertical")
-            );
-
-            if (inputDir.sqrMagnitude > 0.1f)
-                return inputDir.normalized;
+            PillController pillController = ch.GetComponent<PillController>();
+    
+            if (pillController != null)
+            {
+                Vector2 inputDir = pillController.GetInputAction("Move").ReadValue<Vector2>();
+        
+                if (inputDir.sqrMagnitude > 0.1f)
+                    return inputDir.normalized;
+            }
 
             // fallback → facing
             float face = ch.transform.localScale.x > 0 ? 1f : -1f;
             return Vector2.right * face;
         }
-
+        
         private void RestorePhysics()
         {
             if (cachedRb != null)

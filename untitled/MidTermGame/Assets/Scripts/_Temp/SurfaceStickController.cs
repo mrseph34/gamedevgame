@@ -228,7 +228,8 @@ public class SurfaceStickController : MonoBehaviour
     
     void HandleSurfaceMovement()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        Vector2 moveInput = pillController.GetInputAction("Move").ReadValue<Vector2>();
+        float horizontalInput = moveInput.x;
         
         // Calculate movement direction along the surface
         Vector2 moveDir = Vector2.zero;
@@ -302,12 +303,10 @@ public class SurfaceStickController : MonoBehaviour
     
     void CheckForDropInput()
     {
-        // Slide off with down + attack
-        bool slideInput = Input.GetAxisRaw("Vertical") < -0.5f && Input.GetButtonDown("Fire1");
-        
-        // Quick jump off
-        bool jumpInput = Input.GetButtonDown("Jump");
-        
+        Vector2 moveInput = pillController.GetInputAction("Move").ReadValue<Vector2>();
+        bool slideInput = moveInput.y < -0.5f && pillController.GetInputAction("Attack").WasPressedThisFrame();
+        bool jumpInput = pillController.GetInputAction("Jump").WasPressedThisFrame();
+    
         if (slideInput)
         {
             SlideOffSurface();
@@ -320,7 +319,7 @@ public class SurfaceStickController : MonoBehaviour
     
     void CheckSurfaceAttacks()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (pillController.GetInputAction("Attack").WasPressedThisFrame())
         {
             // Cost adhesion for attacking
             currentAdhesion -= attackAdhesionCost;

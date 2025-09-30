@@ -1,5 +1,7 @@
+using System.Reflection;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(StateHandler))]
@@ -10,10 +12,20 @@ public class PillController : MonoBehaviour
     private InputSystem_Actions.Player1Actions player1Controls;
     private InputSystem_Actions.Player2Actions player2Controls;
     
-    [Header("Movement")]
+   [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
     public float stickForce = 10f;
+
+    [Header("BPM Movement Modifier")]
+    [Tooltip("Reference to the HeartMonitor component")]
+    public HeartMonitor heartMonitor;
+    [Tooltip("Minimum speed multiplier at minBPM (e.g., 0.5 = 50% speed)")]
+    [Range(0f, 1f)]
+    public float minSpeedMultiplier = 0.5f;
+    [Tooltip("Maximum speed multiplier at maxBPM (e.g., 1.5 = 150% speed)")]
+    [Range(1f, 2f)]
+    public float maxSpeedMultiplier = 1.5f;
 
     [Header("Ground Check")]
     public float groundRayDistance = 0.2f;
@@ -80,6 +92,16 @@ public class PillController : MonoBehaviour
         if (originalScale.x < 0)
         {
             facingRight = false;
+        }
+
+        // Auto-find HeartMonitor if not assigned
+        if (heartMonitor == null)
+        {
+            heartMonitor = GetComponent<HeartMonitor>();
+            if (heartMonitor == null)
+            {
+                Debug.LogWarning("No HeartMonitor found. BPM-based movement will be disabled.", this);
+            }
         }
     }
 
@@ -197,8 +219,11 @@ public class PillController : MonoBehaviour
                     effectiveInput = 0f;
                 }
             }
+
+            // Calculate BPM-based speed multiplier
+            float bpmSpeedMultiplier = GetBPMSpeedMultiplier();
         
-            rb.linearVelocity = new Vector2(effectiveInput * moveSpeed * movementMultiplier, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(effectiveInput * moveSpeed * movementMultiplier * bpmSpeedMultiplier, rb.linearVelocity.y);
         }
 
         // slow down vertical descent while attacking
@@ -210,6 +235,43 @@ public class PillController : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.9f);
             }
         }
+    }
+    
+    public InputAction GetInputAction(string actionName)
+    {
+        var controlsObject = isPlayer1 ? (object)player1Controls : (object)player2Controls;
+    
+        PropertyInfo property = controlsObject.GetType().GetProperty(actionName);
+    
+        if (property != null && property.PropertyType == typeof(InputAction))
+        {
+            return property.GetValue(controlsObject) as InputAction;
+        }
+    
+        Debug.LogWarning($"InputAction '{actionName}' not found!");
+        return null;
+    }
+
+    /// <summary>
+    /// Calculates the speed multiplier based on current BPM.
+    /// Returns a value between minSpeedMultiplier and maxSpeedMultiplier.
+    /// </summary>
+    private float GetBPMSpeedMultiplier()
+    {
+        if (heartMonitor == null)
+            return 1f; // No modifier if no heart monitor
+
+        float currentBPM = heartMonitor.BPM;
+        float minBPM = heartMonitor.minBPM;
+        float maxBPM = heartMonitor.maxBPM;
+
+        // Calculate normalized BPM (0 to 1)
+        float normalizedBPM = Mathf.InverseLerp(minBPM, maxBPM, currentBPM);
+
+        // Map normalized BPM to speed multiplier range
+        float speedMultiplier = Mathf.Lerp(minSpeedMultiplier, maxSpeedMultiplier, normalizedBPM);
+
+        return speedMultiplier;
     }
     
     void Flip()
