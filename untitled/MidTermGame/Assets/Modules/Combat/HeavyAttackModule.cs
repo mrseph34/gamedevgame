@@ -11,7 +11,6 @@ namespace Modules.Combat
         public float windupDuration = 0.5f;
         public string attackTrigger = "heavyAttack";
         // public string comboIntName = "heavyClip"; // use later for random heavy attacks?
-        public string heavyNotifier = "isHeavy";
         public string heavyExitTrigger = "heavyExit";
     
         [Header("Difficulty Settings")]
@@ -159,6 +158,7 @@ namespace Modules.Combat
             animator.SetTrigger(animationTrigger);
             animator.ResetTrigger(attackTrigger);
             animator.ResetTrigger(heavyExitTrigger);
+            animator.SetBool("heavyTank", true);
             animator.SetBool("isHeavy", true);
             yield return new WaitForSeconds(windupDuration);
         
