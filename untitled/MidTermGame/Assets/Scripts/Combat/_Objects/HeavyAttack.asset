@@ -16,8 +16,10 @@ MonoBehaviour:
   maxHoldTime: 1.5
   windupDuration: 0.5
   attackTrigger: heavyTrigger
+  heavyNotifier: isHeavy
   heavyExitTrigger: heavyExit
   easyMode: 1
+  heavyCooldown: 0.5
   minKnockbackForce: 10
   maxKnockbackForce: 50
   stunDuration: 1
@@ -33,3 +35,6 @@ MonoBehaviour:
   hbDiagOff: {x: 1.5, y: 1.5}
   attackDelay: 0
   targetTag: Player
+  maxRotationAngle: 30
+  upwardAngleThreshold: 10
+  rotationDuration: 0.5

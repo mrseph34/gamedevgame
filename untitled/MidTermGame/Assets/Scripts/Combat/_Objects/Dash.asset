@@ -21,17 +21,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.9999849
-      outSlope: -0.9999849
+      inSlope: -0.277059
+      outSlope: -0.277059
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
+      time: 0.10538417
+      value: 0.97080237
+      inSlope: -0.68110096
+      outSlope: -0.68110096
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1.0000143
       value: 0.0000007972121
-      inSlope: -0.9999849
-      outSlope: -0.9999849
+      inSlope: -1.085143
+      outSlope: -1.085143
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -39,9 +48,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dragDuringDash: 0.5
+  dragDuringDash: 2
   dashCooldown: 1
   ignoreGravityDuringDash: 1
   collisionLayers:
     serializedVersion: 2
     m_Bits: 8
+  upwardAngleThreshold: 10
