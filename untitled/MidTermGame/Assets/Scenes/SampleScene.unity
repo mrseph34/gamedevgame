@@ -237,7 +237,7 @@ MonoBehaviour:
   initialSize: {x: 100, y: 100}
   minBPM: 0
   maxBPM: 200
-  bpm: 1
+  bpm: 101
   delayBeforeIncrease: 5
   autoIncreaseRate: 10
   pulseAmplitude: 0.3
@@ -319,8 +319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer1: 0
-  moveSpeed: 5
-  jumpForce: 6
+  moveSpeed: 7
+  jumpForce: 10
   stickForce: 10
   heartMonitor: {fileID: 0}
   minSpeedMultiplier: 0.5
@@ -445,8 +445,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2633684472559265683, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 352832124819000501, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
+  m_Color: {r: 0.6981132, g: 0.32600567, b: 0.32600567, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -744,7 +744,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 352832124819000501, guid: ae1b0438d462a4601ab42e66c7cad4da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3488341, g: 0.35156837, b: 0.6320754, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -782,8 +782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer1: 1
-  moveSpeed: 5
-  jumpForce: 6
+  moveSpeed: 7
+  jumpForce: 10
   stickForce: 10
   heartMonitor: {fileID: 0}
   minSpeedMultiplier: 0.5
@@ -867,7 +867,7 @@ MonoBehaviour:
   initialSize: {x: 100, y: 100}
   minBPM: 0
   maxBPM: 200
-  bpm: 100
+  bpm: 101
   delayBeforeIncrease: 5
   autoIncreaseRate: 10
   pulseAmplitude: 0.3

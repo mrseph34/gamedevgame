@@ -70,8 +70,10 @@ public class CombatInputHandler : MonoBehaviour
     
     private void Update()
     {
-        // Use cloned modules instead of original modules
-        int maxIndex = Mathf.Min(inputActions.Length, clonedAttackModules.Length);
+        Animator animator = this.GetComponent<Animator>();
+        if (animator.GetBool("isDead")) return;
+            // Use cloned modules instead of original modules
+            int maxIndex = Mathf.Min(inputActions.Length, clonedAttackModules.Length);
         
         for (int i = 0; i < maxIndex; i++)
         {
@@ -87,6 +89,8 @@ public class CombatInputHandler : MonoBehaviour
     // Helper method to check if a specific attack module's input was pressed this frame
     public bool IsAttackInputPressed(AttackModule attackModule)
     {
+        Animator animator = this.GetComponent<Animator>();
+        if (animator.GetBool("isDead")) return false;
         // Check against cloned modules
         for (int i = 0; i < clonedAttackModules.Length; i++)
         {
@@ -101,6 +105,8 @@ public class CombatInputHandler : MonoBehaviour
     // Helper method to check if a specific attack module's input is being held
     public bool IsAttackInputHeld(AttackModule attackModule)
     {
+        Animator animator = this.GetComponent<Animator>();
+        if (animator.GetBool("isDead")) return false;
         // Check against cloned modules
         for (int i = 0; i < clonedAttackModules.Length; i++)
         {

@@ -16,10 +16,9 @@ MonoBehaviour:
   maxHoldTime: 1.5
   windupDuration: 0.5
   attackTrigger: heavyTrigger
-  heavyNotifier: isHeavy
   heavyExitTrigger: heavyExit
   easyMode: 1
-  heavyCooldown: 0.5
+  heavyCooldown: 1
   minKnockbackForce: 10
   maxKnockbackForce: 50
   stunDuration: 1

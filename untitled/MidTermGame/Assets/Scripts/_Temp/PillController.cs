@@ -110,6 +110,8 @@ public class PillController : MonoBehaviour
 
     void Update()
     {
+        Animator animator = this.GetComponent<Animator>();
+        if (animator.GetBool("isDead")) return;
         // Get horizontal input based on player
         Vector2 moveInput = isPlayer1
             ? player1Controls.Move.ReadValue<Vector2>()
@@ -195,6 +197,8 @@ public class PillController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Animator animator = this.GetComponent<Animator>();
+        if (animator.GetBool("isDead")) return;
         // keep upright while grounded
         if (stateHandler.CurrentState == StateHandler.State.Grounded)
             transform.rotation = Quaternion.identity;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationTrigger: attackStart
   maxCombo: 3
-  comboContinueWindow: 0.5
+  comboContinueWindow: 0.75
   comboCooldown: 1
   comboIntName: attackClip
   attackTriggerName: attackTrigger
@@ -31,9 +31,9 @@ MonoBehaviour:
   hbDiagSize: {x: 5, y: 10}
   hbDiagOff: {x: 1, y: 1}
   attackDelay: 0
-  knockbackForce: 2
-  lastHitKnockbackForce: 15
-  stunDuration: 0.5
+  knockbackForce: 5
+  lastHitKnockbackForce: 30
+  stunDuration: 0.3
   targetTag: Player
   maxRotationAngle: 30
   upwardAngleThreshold: 10
