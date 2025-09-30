@@ -378,6 +378,8 @@ public class ComboModule : AttackModule
         
         if (inDir.y > 0.5f && Mathf.Abs(inDir.x) < 0.1f)
         {
+            Animator animator = ch.GetComponent<Animator>();
+            animator.SetTrigger("playerOverhead");
             size = hbUpSize;
             offset = hbUpOff;
         }
